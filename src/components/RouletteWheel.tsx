@@ -6,12 +6,12 @@ import { useTheme } from "@/context/ThemeContext";
 import { BTS_MEMBERS } from "@/data/btsMembers";
 
 export function RouletteWheel() {
-  const { rotation, isSpinning, drawnNumbers, spin, remainingNumbers, isCompleted } = useLottery();
+  const { rotation, isSpinning, drawnNumbers, spin, isCompleted } = useLottery();
   const { theme } = useTheme();
 
   const isPastel = theme === "pastel";
   const numSectors = 7;
-  const sectorAngle = 360 / numSectors; // ~51.42857 deg
+  const sectorAngle = 360 / numSectors;
   const radius = 180;
   const center = 200;
 
@@ -29,15 +29,14 @@ export function RouletteWheel() {
       ];
       return isDrawn ? "#E2E8F0" : pastelColors[index];
     } else {
-      // Arirang theme: Alternating deep blacks, crimson reds, dark zincs
       const arirangColors = [
-        "#991B1B", // Dark red
-        "#18181B", // Dark zinc
-        "#DC2626", // Red
-        "#09090B", // Black
-        "#B91C1C", // Deep crimson
-        "#27272A", // Slate dark
-        "#EF4444", // Bright red
+        "#991B1B",
+        "#18181B",
+        "#DC2626",
+        "#09090B",
+        "#B91C1C",
+        "#27272A",
+        "#EF4444",
       ];
       return isDrawn ? "#27272A" : arirangColors[index];
     }
@@ -50,7 +49,6 @@ export function RouletteWheel() {
     return isDrawn ? "#71717A" : "#FFFFFF";
   };
 
-  // Helper to generate SVG path for a sector
   const getSectorPath = (index: number) => {
     const startAngle = (index * sectorAngle * Math.PI) / 180;
     const endAngle = ((index + 1) * sectorAngle * Math.PI) / 180;
@@ -76,7 +74,7 @@ export function RouletteWheel() {
             <polygon
               points="14,34 2,4 26,4"
               fill={isPastel ? "#8B5CF6" : "#EF4444"}
-              stroke={isPastel ? "#FFFFFF" : "#FFFFFF"}
+              stroke="#FFFFFF"
               strokeWidth="2.5"
             />
             <circle cx="14" cy="10" r="4" fill="#FFFFFF" />
@@ -127,7 +125,6 @@ export function RouletteWheel() {
                 const fill = getSectorFill(index, isDrawn);
                 const textColor = getTextColor(index, isDrawn);
                 const midAngle = ((index + 0.5) * sectorAngle * Math.PI) / 180;
-                // Position for text/labels
                 const textDistance = radius * 0.68;
                 const textX = center + textDistance * Math.cos(midAngle);
                 const textY = center + textDistance * Math.sin(midAngle);
@@ -135,7 +132,6 @@ export function RouletteWheel() {
 
                 return (
                   <g key={member.id} className="transition-colors duration-300">
-                    {/* Sector slice */}
                     <path
                       d={getSectorPath(index)}
                       fill={fill}
@@ -144,13 +140,11 @@ export function RouletteWheel() {
                       opacity={isDrawn ? 0.6 : 1}
                     />
 
-                    {/* Sector Content */}
                     <g
                       transform={`translate(${textX}, ${textY}) rotate(${rotationDeg})`}
                       textAnchor="middle"
                       dominantBaseline="middle"
                     >
-                      {/* Number */}
                       <text
                         y="-10"
                         fill={textColor}
@@ -161,7 +155,6 @@ export function RouletteWheel() {
                         #{member.number}
                       </text>
 
-                      {/* Name */}
                       <text
                         y="10"
                         fill={textColor}
@@ -173,7 +166,6 @@ export function RouletteWheel() {
                         {member.name}
                       </text>
 
-                      {/* Check icon if already drawn */}
                       {isDrawn && (
                         <text y="26" fontSize="12" fill={isPastel ? "#7C3AED" : "#EF4444"}>
                           ✓
@@ -184,7 +176,6 @@ export function RouletteWheel() {
                 );
               })}
 
-              {/* Inner Decorative Circle */}
               <circle
                 cx={center}
                 cy={center}

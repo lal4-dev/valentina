@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { useLottery } from "@/context/LotteryContext";
 import { useTheme } from "@/context/ThemeContext";
-import { useAuth } from "@/context/AuthContext";
 
 export function LotteryControls() {
   const {
@@ -15,7 +14,6 @@ export function LotteryControls() {
     resetLottery,
   } = useLottery();
   const { theme } = useTheme();
-  const { isAdmin, currentUser } = useAuth();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
@@ -126,10 +124,12 @@ export function LotteryControls() {
               ? "Girando la ruleta..."
               : isCompleted
               ? "¡Todos los regalos sorteados! 🎉"
+              : drawnNumbers.length === 0
+              ? "Iniciar con el primer regalo 🎁"
               : `Sortear siguiente regalo (${remainingNumbers.length} disponibles)`}
           </button>
 
-          {/* Reset button (visible to all or especially admin) */}
+          {/* Reset button */}
           <button
             onClick={() => setShowResetConfirm(true)}
             disabled={isSpinning || drawnNumbers.length === 0}

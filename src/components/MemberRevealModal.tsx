@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useLottery } from "@/context/LotteryContext";
 import { useTheme } from "@/context/ThemeContext";
 import { MemberAvatar } from "@/components/MemberAvatar";
@@ -10,22 +10,12 @@ export function MemberRevealModal() {
   const { theme } = useTheme();
   const isPastel = theme === "pastel";
 
-  const [animateIn, setAnimateIn] = useState(false);
-
-  useEffect(() => {
-    if (activeMember) {
-      setAnimateIn(true);
-    } else {
-      setAnimateIn(false);
-    }
-  }, [activeMember]);
-
   if (!activeMember) return null;
 
   const palette = isPastel ? activeMember.palette.pastel : activeMember.palette.arirang;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-all duration-300">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn">
       {/* Floating Sparkles & Confetti Background Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
         <span className="absolute -top-10 left-10 text-4xl animate-bounce duration-700">
@@ -44,9 +34,7 @@ export function MemberRevealModal() {
 
       {/* Main Card Container */}
       <div
-        className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-500 transform ${
-          animateIn ? "scale-100 opacity-100 translate-y-0" : "scale-95 opacity-0 translate-y-4"
-        } ${
+        className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-500 transform scale-100 opacity-100 ${
           isPastel
             ? "bg-gradient-to-b from-white via-purple-50/70 to-pink-50/50 border-purple-200 shadow-purple-300/50 text-purple-950"
             : "bg-gradient-to-b from-zinc-950 via-zinc-900 to-black border-red-800 shadow-red-950 text-white"
@@ -122,7 +110,7 @@ export function MemberRevealModal() {
         >
           <div className="flex items-center gap-2 font-bold mb-1.5 text-xs text-pink-600 dark:text-red-400 uppercase tracking-wider">
             <span>💌</span>
-            <span>Dedicatoria para Valentina</span>
+            <span>Mi mensaje para vos</span>
           </div>
           <p className="font-medium">{activeMember.birthdayWish}</p>
         </div>
@@ -138,7 +126,7 @@ export function MemberRevealModal() {
           <span className="text-lg">🎀</span>
           <div>
             <span className="font-bold">Pista del regalo #{activeMember.number}:</span>{" "}
-            <span>{activeMember.giftHint}</span>
+            <span className="italic font-medium">&ldquo;{activeMember.giftHint}&rdquo;</span>
           </div>
         </div>
 

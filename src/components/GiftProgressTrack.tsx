@@ -3,7 +3,7 @@
 import React from "react";
 import { useLottery } from "@/context/LotteryContext";
 import { useTheme } from "@/context/ThemeContext";
-import { BTS_MEMBERS, BTSMember } from "@/data/btsMembers";
+import { BTS_MEMBERS } from "@/data/btsMembers";
 import { MemberAvatar } from "@/components/MemberAvatar";
 
 export function GiftProgressTrack() {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useSyncExternalStore } from "react";
 import { UserProfile, USER_PROFILES, AUTH_CREDENTIALS } from "@/data/authConfig";
 
 interface AuthContextType {
@@ -13,22 +13,30 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isHydrated, setIsHydrated] = useState<boolean>(false);
+const STORAGE_KEY_AUTH = "bts_valentina_auth_user";
 
-  useEffect(() => {
-    setIsHydrated(true);
-    const savedUser = localStorage.getItem("bts_valentina_auth_user");
-    if (savedUser) {
-      const profile = USER_PROFILES.find((p) => p.id === savedUser);
-      if (profile) {
-        setCurrentUser(profile);
-        setIsAuthenticated(true);
-      }
-    }
-  }, []);
+function subscribeAuth(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getAuthSnapshot(): string {
+  return localStorage.getItem(STORAGE_KEY_AUTH) || "";
+}
+
+function getAuthServerSnapshot(): string {
+  return "";
+}
+
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const authUserKey = useSyncExternalStore(
+    subscribeAuth,
+    getAuthSnapshot,
+    getAuthServerSnapshot
+  );
+
+  const currentUser = USER_PROFILES.find((p) => p.id === authUserKey) || null;
+  const isAuthenticated = Boolean(currentUser);
 
   const login = (profileId: "valentina" | "admin", passwordInput: string) => {
     const cleanPassword = passwordInput.trim();
@@ -39,12 +47,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
 
     if (cleanPassword === creds.password) {
-      const profile = USER_PROFILES.find((p) => p.id === profileId) || null;
-      setCurrentUser(profile);
-      setIsAuthenticated(true);
-      if (typeof window !== "undefined") {
-        localStorage.setItem("bts_valentina_auth_user", profileId);
-      }
+      localStorage.setItem(STORAGE_KEY_AUTH, profileId);
+      window.dispatchEvent(new Event("storage"));
       return { success: true };
     } else {
       return {
@@ -58,11 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
-    setCurrentUser(null);
-    setIsAuthenticated(false);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("bts_valentina_auth_user");
-    }
+    localStorage.removeItem(STORAGE_KEY_AUTH);
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (
@@ -75,7 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAdmin: currentUser?.id === "admin",
       }}
     >
-      {isHydrated ? children : null}
+      {children}
     </AuthContext.Provider>
   );
 }

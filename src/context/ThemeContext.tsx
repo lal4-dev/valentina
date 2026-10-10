@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useSyncExternalStore } from "react";
 
 export type VisualTheme = "pastel" | "arirang";
 
@@ -12,27 +12,34 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
+function subscribeTheme(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getThemeSnapshot(): VisualTheme {
+  const saved = localStorage.getItem("bts_valentina_theme");
+  return saved === "arirang" ? "arirang" : "pastel";
+}
+
+function getThemeServerSnapshot(): VisualTheme {
+  return "pastel";
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<VisualTheme>("pastel");
-  const [isMounted, setIsMounted] = useState(false);
+  const theme = useSyncExternalStore(
+    subscribeTheme,
+    getThemeSnapshot,
+    getThemeServerSnapshot
+  );
 
   useEffect(() => {
-    setIsMounted(true);
-    const savedTheme = localStorage.getItem("bts_valentina_theme") as VisualTheme | null;
-    if (savedTheme === "pastel" || savedTheme === "arirang") {
-      setThemeState(savedTheme);
-      document.documentElement.setAttribute("data-theme", savedTheme);
-    } else {
-      document.documentElement.setAttribute("data-theme", "pastel");
-    }
-  }, []);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const setTheme = (newTheme: VisualTheme) => {
-    setThemeState(newTheme);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("bts_valentina_theme", newTheme);
-      document.documentElement.setAttribute("data-theme", newTheme);
-    }
+    localStorage.setItem("bts_valentina_theme", newTheme);
+    window.dispatchEvent(new Event("storage"));
   };
 
   const toggleTheme = () => {

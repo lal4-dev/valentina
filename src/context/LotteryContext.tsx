@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useSyncExternalStore } from "react";
 import { BTSMember, BTS_MEMBERS } from "@/data/btsMembers";
 
 interface LotteryContextType {
@@ -23,31 +23,40 @@ const LotteryContext = createContext<LotteryContextType | undefined>(undefined);
 const INITIAL_NUMBERS = [1, 2, 3, 4, 5, 6, 7];
 const STORAGE_KEY_DRAWN = "bts_valentina_drawn_numbers";
 
+function subscribeLottery(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+
+function getLotterySnapshot(): string {
+  return localStorage.getItem(STORAGE_KEY_DRAWN) || "[]";
+}
+
+function getLotteryServerSnapshot(): string {
+  return "[]";
+}
+
 export function LotteryProvider({ children }: { children: React.ReactNode }) {
-  const [drawnNumbers, setDrawnNumbers] = useState<number[]>([]);
+  const drawnNumbersRaw = useSyncExternalStore(
+    subscribeLottery,
+    getLotterySnapshot,
+    getLotteryServerSnapshot
+  );
+
+  let drawnNumbers: number[] = [];
+  try {
+    const parsed = JSON.parse(drawnNumbersRaw);
+    if (Array.isArray(parsed)) {
+      drawnNumbers = parsed.filter((n) => typeof n === "number" && n >= 1 && n <= 7);
+    }
+  } catch {
+    drawnNumbers = [];
+  }
+
   const [activeMember, setActiveMember] = useState<BTSMember | null>(null);
   const [isSpinning, setIsSpinning] = useState<boolean>(false);
   const [rotation, setRotation] = useState<number>(0);
   const [lastDrawnNumber, setLastDrawnNumber] = useState<number | null>(null);
-  const [isHydrated, setIsHydrated] = useState<boolean>(false);
-
-  // Restore state from localStorage
-  useEffect(() => {
-    setIsHydrated(true);
-    const saved = localStorage.getItem(STORAGE_KEY_DRAWN);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          // ensure valid numbers 1-7
-          const valid = parsed.filter((n) => typeof n === "number" && n >= 1 && n <= 7);
-          setDrawnNumbers(valid);
-        }
-      } catch (err) {
-        console.error("Error loading drawn numbers from storage", err);
-      }
-    }
-  }, []);
 
   const remainingNumbers = INITIAL_NUMBERS.filter((n) => !drawnNumbers.includes(n));
   const isCompleted = remainingNumbers.length === 0;
@@ -56,70 +65,61 @@ export function LotteryProvider({ children }: { children: React.ReactNode }) {
     .map((num) => BTS_MEMBERS.find((m) => m.number === num))
     .filter((m): m is BTSMember => !!m);
 
-  const spin = useCallback(() => {
+  const spin = () => {
     if (isSpinning || remainingNumbers.length === 0) return;
 
     setIsSpinning(true);
 
-    // Pick random number among REMAINING ones
-    const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
-    const chosenNumber = remainingNumbers[randomIndex];
+    // FIRST DRAW MUST ALWAYS BE NUMBER 4 (Namjoon: Dedicatoria del corazón)
+    let chosenNumber: number;
+    if (drawnNumbers.length === 0 && remainingNumbers.includes(4)) {
+      chosenNumber = 4;
+    } else {
+      const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
+      chosenNumber = remainingNumbers[randomIndex];
+    }
+
     setLastDrawnNumber(chosenNumber);
 
-    // 7 sectors in a wheel -> 360 / 7 = ~51.42857 degrees per sector
-    // Sector indices: 1 corresponds to sector index 0, etc.
     const segmentAngle = 360 / 7;
-    // Pointer is typically at top (90 deg or 270 deg / 0 deg).
-    // Let's assume sector i is at: [i * segmentAngle, (i + 1) * segmentAngle].
-    // Center of sector (chosenNumber - 1):
     const sectorCenter = (chosenNumber - 1) * segmentAngle + segmentAngle / 2;
 
-    // To align sectorCenter with pointer at top (270 deg / -90 deg):
-    // pointer is at 270 deg.
-    // Target wheel rotation R such that: (R + sectorCenter) % 360 === 270
-    // => R = 270 - sectorCenter + 360 * extraSpins
-    const extraSpins = 5; // 5 full revolutions
+    const extraSpins = 5;
     const currentWheelAngle = rotation % 360;
     const targetOffset = ((270 - sectorCenter - currentWheelAngle) % 360 + 360) % 360;
     const newRotation = rotation + 360 * extraSpins + targetOffset;
 
     setRotation(newRotation);
 
-    // After spin animation finishes (3.5 seconds)
     setTimeout(() => {
       setIsSpinning(false);
       const newDrawn = [...drawnNumbers, chosenNumber];
-      setDrawnNumbers(newDrawn);
-      if (typeof window !== "undefined") {
-        localStorage.setItem(STORAGE_KEY_DRAWN, JSON.stringify(newDrawn));
-      }
+      localStorage.setItem(STORAGE_KEY_DRAWN, JSON.stringify(newDrawn));
+      window.dispatchEvent(new Event("storage"));
 
-      // Open reveal modal for the chosen member
       const member = BTS_MEMBERS.find((m) => m.number === chosenNumber);
       if (member) {
         setActiveMember(member);
       }
     }, 3600);
-  }, [isSpinning, remainingNumbers, drawnNumbers, rotation]);
+  };
 
-  const resetLottery = useCallback(() => {
+  const resetLottery = () => {
     if (isSpinning) return;
-    setDrawnNumbers([]);
+    localStorage.removeItem(STORAGE_KEY_DRAWN);
+    window.dispatchEvent(new Event("storage"));
     setActiveMember(null);
     setLastDrawnNumber(null);
     setRotation(0);
-    if (typeof window !== "undefined") {
-      localStorage.removeItem(STORAGE_KEY_DRAWN);
-    }
-  }, [isSpinning]);
+  };
 
-  const openMemberModal = useCallback((member: BTSMember) => {
+  const openMemberModal = (member: BTSMember) => {
     setActiveMember(member);
-  }, []);
+  };
 
-  const closeMemberModal = useCallback(() => {
+  const closeMemberModal = () => {
     setActiveMember(null);
-  }, []);
+  };
 
   return (
     <LotteryContext.Provider
@@ -138,7 +138,7 @@ export function LotteryProvider({ children }: { children: React.ReactNode }) {
         lastDrawnNumber,
       }}
     >
-      {isHydrated ? children : null}
+      {children}
     </LotteryContext.Provider>
   );
 }

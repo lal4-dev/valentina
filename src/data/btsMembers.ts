@@ -37,20 +37,20 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Min Yoongi",
     koreanName: "민윤기",
     role: "Rapero, Productor y Genio Musical",
-    quote: "Que tus creaciones sean audaces y que tu final esté lleno de paz.",
-    birthdayWish: "¡Feliz cumple, Valen! Que en este nuevo año encuentres la calma en medio de la tormenta y la fuerza para perseguir cada una de tus pasiones con el corazón.",
-    giftHint: "Un detalle pensado con dedicación para acompañar tus momentos especiales.",
+    quote: "In the end, we will always win. Que la música siempre acompañe tus días de paz.",
+    birthdayWish: "Mi amor hermosa, sé cuánto disfrutás de tus momentos y de lo que te gusta hacer. Quiero verte siempre tranquila, feliz y disfrutando cada cosa que armamos juntos.",
+    giftHint: "para que no pelies mas con lio y puedas disfruta tu regalo del año pasado",
     imagePath: "/members/yoongi.png",
     palette: {
       pastel: {
-        primary: "#C4B5FD", // Lila suave
+        primary: "#C4B5FD",
         secondary: "#EDE9FE",
         accent: "#7C3AED",
         text: "#4C1D95",
         badge: "bg-purple-100 text-purple-700 border-purple-200",
       },
       arirang: {
-        primary: "#DC2626", // Rojo fuego
+        primary: "#DC2626",
         secondary: "#18181B",
         accent: "#EF4444",
         text: "#FFFFFF",
@@ -66,13 +66,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Kim Taehyung",
     koreanName: "김태형",
     role: "Vocalista, Visual y Alma Artística",
-    quote: "Borahae (I Purple You): confiaré en ti y te amaré por mucho tiempo.",
-    birthdayWish: "Que la vida te sorprenda con tanta belleza, ternura y momentos mágicos como los que vos le regalás a quienes te rodean. ¡Te amo y te celebro!",
-    giftHint: "Un regalo lleno de estilo, calidez y cariño para sonreír cada día.",
+    quote: "Borahae: confiaré en ti y te amaré por siempre.",
+    birthdayWish: "Valen de mi vida, sin importar dónde estemos o la distancia, siempre estamos cerquita del corazón. Te amo con locura y quiero que siempre sientas mi compañía estés donde estés.",
+    giftHint: "para que siempre este conectada lejos",
     imagePath: "/members/tae.png",
     palette: {
       pastel: {
-        primary: "#FBCFE8", // Rosa rubor
+        primary: "#FBCFE8",
         secondary: "#FDF2F8",
         accent: "#DB2777",
         text: "#831843",
@@ -95,13 +95,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Park Jimin",
     koreanName: "박지민",
     role: "Vocalista Principal y Bailarín Ángel",
-    quote: "Recuerda que nunca estás sola: prometé que siempre serás tu mayor luz.",
-    birthdayWish: "Sos luz, dulzura y alegría inmensa. Que este día esté lleno de abrazos, sonrisas y el amor que tanto te merecés.",
-    giftHint: "Una sorpresa delicada para cuidarte y mimarte como una reina.",
+    quote: "Prometeme que siempre vas a recordar lo valiosa que sos y lo mucho que iluminás todo.",
+    birthdayWish: "Sos lo más tierno y lindo que me pasó, mi cielo. No quiero verte triste nunca más; quiero que cada lágrima se transforme en una sonrisa y en un abrazo nuestro que te guarde siempre.",
+    giftHint: "para que no llores mas cuando lo recuerdes",
     imagePath: "/members/jimin.png",
     palette: {
       pastel: {
-        primary: "#FEF08A", // Amarillo pastel cálido
+        primary: "#FEF08A",
         secondary: "#FEFCE8",
         accent: "#CA8A04",
         text: "#713F12",
@@ -124,13 +124,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Kim Namjoon",
     koreanName: "김남준",
     role: "Líder, Filósofo y Letrista",
-    quote: "Si pudimos ayudarte a aliviar tu dolor o hacerte sonreír un poco, ya valió la pena.",
-    birthdayWish: "Admiro tu fuerza, tu inteligencia y tu sensibilidad única. Que este nuevo año te traiga paz, proyectos cumplidos y momentos inolvidables.",
-    giftHint: "Un detalle con significado especial para atesorar siempre.",
+    quote: "El amor verdadero no se trata solo de palabras, sino de elegirnos todos los días con el corazón.",
+    birthdayWish: "Mi compañera hermosa, este es el inicio de todo lo que preparé para vos. Cada palabra, cada detalle y cada regalo nacieron de lo más profundo de mi corazón para decirte lo importante que sos para mí.",
+    giftHint: "un poco de texto que salio de mi corazon para vos",
     imagePath: "/members/namjoon.png",
     palette: {
       pastel: {
-        primary: "#BAE6FD", // Celeste cielo
+        primary: "#BAE6FD",
         secondary: "#F0F9FF",
         accent: "#0284C7",
         text: "#075985",
@@ -153,13 +153,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Kim Seokjin",
     koreanName: "김석진",
     role: "Vocalista, Worldwide Handsome y Alegría",
-    quote: "Tu sola presencia puede hacer feliz a los demás. Nunca lo olvides.",
-    birthdayWish: "¡Felicidades a la más hermosa del mundo! Que nunca te falte la risa contagiosa, la comida rica y motivos para celebrar la vida.",
-    giftHint: "Un regalo divertido y brillante para hacerte brillar aún más.",
+    quote: "La vida es más linda cuando nos reímos juntos y no nos tomamos todo tan en serio.",
+    birthdayWish: "¡Mi reina hermosa! Te amo cuando te reís a carcajadas. Quiero que te diviertas, que nos riamos un montón y que dejes de renegar tanto porque te merecés pura alegría.",
+    giftHint: "para que juegues mas y no renegues tatno",
     imagePath: "/members/jin.png",
     palette: {
       pastel: {
-        primary: "#FDE68A", // Melocotón / dorado suave
+        primary: "#FDE68A",
         secondary: "#FFFBEB",
         accent: "#D97706",
         text: "#92400E",
@@ -182,13 +182,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Jung Hoseok",
     koreanName: "정호석",
     role: "Bailarín Principal, Rapero y Esperanza",
-    quote: "I'm your hope, you're my hope, I'm J-Hope!",
-    birthdayWish: "Que la energía brillante y radiante de Hobi te acompañe todos los días. Sos una persona llena de luz y esperanza para todos los que te queremos.",
-    giftHint: "Una sorpresa vibrante para contagiar buena onda y diversión.",
+    quote: "Tu luz y tu energía hacen que cualquier día valga la pena.",
+    birthdayWish: "Mi solcito, quiero que nuestro amor y todo lo que construimos nos dure toda la vida. Me encanta ver cómo cuidás cada una de tus cosas y tus recuerdos, y acá llega algo especial para sumarse a la familia.",
+    giftHint: "para que te duren toda nuestra vida y le haga compañia al resto ya estan muy solitas",
     imagePath: "/members/hobi.png",
     palette: {
       pastel: {
-        primary: "#BBF7D0", // Menta pastel
+        primary: "#BBF7D0",
         secondary: "#F0FDF4",
         accent: "#16A34A",
         text: "#14532D",
@@ -211,13 +211,13 @@ export const BTS_MEMBERS: BTSMember[] = [
     realName: "Jeon Jungkook",
     koreanName: "전정국",
     role: "Vocalista Principal, Golden Maknae y Pasión",
-    quote: "Viví con pasión y nunca te rindas. Lo mejor de la historia recién comienza.",
-    birthdayWish: "El broche de oro para el regalo número 7: ¡sos increíble, talentosa y capaz de todo lo que te propongas! Que este año sea inolvidable.",
-    giftHint: "El regalo final de la colección, elegido con el mayor de los cariños.",
+    quote: "Disfrutá la vida al máximo y brindemos por todo lo lindo que se viene.",
+    birthdayWish: "¡El regalo 7 para mi persona favorita en el universo entero! Para disfrutar juntos, celebrar tu vida y brindar por este cumple y por todos los que nos quedan por delante. ¡Te amo muchísimo!",
+    giftHint: "algo que te gusta mucho y para que tomes jijii",
     imagePath: "/members/jungkook.png",
     palette: {
       pastel: {
-        primary: "#DDD6FE", // Lavanda Borahae
+        primary: "#DDD6FE",
         secondary: "#F5F3FF",
         accent: "#8B5CF6",
         text: "#5B21B6",
