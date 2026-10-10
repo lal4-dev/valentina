@@ -17,80 +17,125 @@ export default function HomePage() {
   // Login view
   if (!isAuthenticated) {
     return (
-      <main className="min-h-screen flex flex-col justify-center items-center py-12 px-4 relative">
+      <main className="min-h-screen flex flex-col justify-center items-center py-10 px-4 relative">
         <AuthCard />
       </main>
     );
   }
 
-  // Authenticated experience
+  // Logged-in experience
   return (
-    <main className="min-h-screen flex flex-col relative transition-colors duration-500 pb-16">
-      {/* Editorial Navigation */}
+    <main className="min-h-screen flex flex-col relative transition-colors duration-300 pb-16">
+      {/* Navbar */}
       <header
         className={`sticky top-0 z-40 backdrop-blur-md border-b px-5 sm:px-10 py-3.5 flex items-center justify-between transition-colors duration-300 ${
           isPastel
-            ? "bg-[#F8F7F4]/80 border-[#E4E0D7]"
-            : "bg-[#0C0C0F]/85 border-[#1E1E26]"
+            ? "bg-white/80 border-purple-200/60 shadow-sm"
+            : "bg-zinc-950/85 border-zinc-800 shadow-sm"
         }`}
       >
         <div className="flex items-center gap-3">
-          <span className="text-xs font-mono tracking-widest uppercase opacity-70">
-            BTS • 07
-          </span>
-          <span className="h-3 w-px bg-inherit opacity-40" />
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-serif font-medium">
-              {currentUser?.name}
-            </span>
-            {isAdmin && (
-              <span className="text-[9px] font-mono uppercase px-1.5 py-0.2 rounded border border-red-500/50 text-red-400">
-                ADMIN
+          <div
+            className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold text-sm border shadow-sm ${
+              isPastel
+                ? "bg-purple-100 text-purple-700 border-purple-200"
+                : "bg-red-950 text-red-200 border-red-800"
+            }`}
+          >
+            {currentUser?.id === "valentina" ? "💜" : "🛠️"}
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span
+                className={`font-extrabold text-sm sm:text-base leading-none ${
+                  isPastel ? "text-purple-950" : "text-white"
+                }`}
+              >
+                {currentUser?.name}
               </span>
-            )}
+              {isAdmin && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-600 text-white">
+                  ADMIN
+                </span>
+              )}
+            </div>
+            <p
+              className={`text-[11px] leading-tight mt-0.5 font-medium ${
+                isPastel ? "text-purple-600" : "text-zinc-400"
+              }`}
+            >
+              {currentUser?.roleTitle}
+            </p>
           </div>
         </div>
 
-        {/* Right tools (avoid colliding with floating FAB on far right) */}
-        <div className="flex items-center gap-4 mr-32 sm:mr-36">
-          <div className="hidden sm:flex items-center gap-2 text-[11px] font-mono opacity-70">
-            <span>ARIRANG &apos;26</span>
-            <span className="opacity-40">•</span>
-            <span>ARGENTINA</span>
+        {/* Right side info (keeps clearance for FAB toggle on top-right) */}
+        <div className="flex items-center gap-3 sm:gap-4 mr-36 sm:mr-44">
+          <div
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shadow-sm ${
+              isPastel
+                ? "bg-purple-50 text-purple-700 border-purple-200"
+                : "bg-red-950 text-red-200 border-red-800"
+            }`}
+          >
+            <span>🇦🇷</span>
+            <span>Arirang Argentina • ¡3 semanas!</span>
           </div>
 
           <button
             onClick={logout}
             type="button"
-            className="text-xs font-mono opacity-65 hover:opacity-100 transition-opacity underline-offset-4 hover:underline"
+            className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all duration-200 hover:scale-105 active:scale-95 ${
+              isPastel
+                ? "bg-white border-purple-200 text-purple-700 hover:bg-purple-50"
+                : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+            }`}
           >
             Salir
           </button>
         </div>
       </header>
 
-      {/* Hero Welcome */}
-      <section className="text-center pt-10 sm:pt-14 px-4 max-w-2xl mx-auto">
-        <span className="text-[10px] font-mono tracking-widest uppercase opacity-60 block mb-2">
-          Edición Especial de Cumpleaños
-        </span>
+      {/* Hero Welcome Banner */}
+      <section className="text-center pt-8 sm:pt-12 px-4 max-w-2xl mx-auto">
+        <div
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide mb-3 shadow-sm border ${
+            isPastel
+              ? "bg-purple-100 text-purple-700 border-purple-200"
+              : "bg-red-950 text-red-200 border-red-800"
+          }`}
+        >
+          <span>💜</span>
+          <span>BTS Birthday Special</span>
+          <span>💜</span>
+        </div>
 
-        <h1 className="text-3xl sm:text-5xl font-serif font-normal tracking-tight leading-tight">
-          Para Valentina
+        <h1
+          className={`text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight ${
+            isPastel
+              ? "text-purple-950"
+              : "text-white"
+          }`}
+        >
+          ¡Feliz Cumpleaños, Valentina!
         </h1>
 
-        <p className="mt-3 text-xs sm:text-sm max-w-lg mx-auto opacity-75 leading-relaxed">
-          Siete regalos pensados uno a uno, inspirados en los integrantes de BTS y dedicados desde lo más profundo del corazón. Girad la ruleta para descubrir cada entrega.
+        <p
+          className={`mt-3 text-xs sm:text-base max-w-lg mx-auto font-medium leading-relaxed ${
+            isPastel ? "text-purple-800/80" : "text-zinc-300"
+          }`}
+        >
+          Siete regalos preparados con todo el amor, uno por cada miembro de BTS. Girad la ruleta para develar cada regalo y su mensaje.
         </p>
       </section>
 
-      {/* Interactive Turntable Section */}
+      {/* Main Roulette Section */}
       <section className="mt-4 sm:mt-6 flex flex-col items-center">
         <RouletteWheel />
         <LotteryControls />
       </section>
 
-      {/* Collectible Photocard Gallery */}
+      {/* 7 Gifts Progress & Review Track */}
       <section className="mt-8">
         <GiftProgressTrack />
       </section>
@@ -98,9 +143,15 @@ export default function HomePage() {
       {/* Modal for Revealed Member */}
       <MemberRevealModal />
 
-      {/* Minimalist Footer */}
-      <footer className="mt-auto text-center py-8 text-[11px] font-mono opacity-50 border-t border-inherit">
-        <p>Borahae Valentina • BTS &amp; Arirang 2026</p>
+      {/* Festive Footer */}
+      <footer
+        className={`mt-auto text-center py-8 text-xs font-medium border-t ${
+          isPastel
+            ? "border-purple-200/60 text-purple-600"
+            : "border-zinc-800 text-zinc-500"
+        }`}
+      >
+        <p>Hecho con mucho amor 💜 • Borahae Valentina • BTS &amp; Arirang 2026</p>
       </footer>
     </main>
   );

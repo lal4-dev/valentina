@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import { BTSMember } from "@/data/btsMembers";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -19,46 +18,56 @@ export function MemberAvatar({ member, size = "md", className = "" }: MemberAvat
   const sizeClasses = {
     sm: "w-12 h-12 text-xs",
     md: "w-20 h-20 text-sm",
-    lg: "w-32 h-32 text-xl",
-    xl: "w-40 h-40 text-2xl",
+    lg: "w-32 h-32 text-base",
+    xl: "w-40 h-40 text-lg",
   }[size];
 
   if (!hasError) {
     return (
       <div
-        className={`relative rounded-2xl overflow-hidden border flex items-center justify-center transition-all ${sizeClasses} ${className} ${
-          isPastel ? "border-[#DDD7CD] bg-[#F4F1EA]" : "border-[#262630] bg-[#141418]"
+        className={`relative rounded-2xl overflow-hidden border-2 flex items-center justify-center transition-all shadow-sm ${sizeClasses} ${className} ${
+          isPastel
+            ? "border-purple-200 bg-purple-50"
+            : "border-zinc-700 bg-zinc-900"
         }`}
       >
-        <Image
+        {/* Standard img to prevent Next.js image server 404 noise while user prepares pngs */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={member.imagePath}
           alt={member.name}
-          fill
-          unoptimized
-          sizes="(max-width: 768px) 160px, 200px"
-          className="object-cover object-top"
+          className="w-full h-full object-cover object-top"
           onError={() => setHasError(true)}
-          priority
         />
       </div>
     );
   }
 
-  // Refined Minimalist Monogram / Photocard Seal
+  // Celebratory Birthday Photocard Seal
   return (
     <div
-      className={`relative rounded-2xl border flex flex-col items-center justify-center font-serif text-center transition-all ${sizeClasses} ${className} ${
+      className={`relative rounded-2xl border-2 flex flex-col items-center justify-center text-center p-2 transition-all shadow-sm ${sizeClasses} ${className} ${
         isPastel
-          ? "border-[#DCD6CA] bg-[#F7F5EF] text-[#2C2738]"
-          : "border-[#2A2A36] bg-[#14141A] text-[#E4E4E8]"
+          ? "border-purple-300 bg-gradient-to-br from-purple-100 via-pink-100 to-amber-100 text-purple-950"
+          : "border-red-600 bg-gradient-to-br from-zinc-900 via-zinc-950 to-red-950 text-white"
       }`}
     >
-      <span className="font-serif italic font-normal">{member.name}</span>
-      <span className="text-[10px] font-sans opacity-60 tracking-widest mt-0.5">
+      <span className="font-extrabold tracking-tight leading-tight">
+        {member.stageName}
+      </span>
+      <span
+        className={`text-[10px] font-bold mt-0.5 ${
+          isPastel ? "text-purple-700" : "text-red-400"
+        }`}
+      >
         {member.koreanName}
       </span>
-      <span className="text-[9px] font-mono opacity-50 mt-1">
-        0{member.number}
+      <span
+        className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded-full mt-1 ${
+          isPastel ? "bg-white/80 text-purple-900" : "bg-red-600/80 text-white"
+        }`}
+      >
+        #{member.number}
       </span>
     </div>
   );

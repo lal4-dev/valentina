@@ -30,55 +30,55 @@ export function AuthCard() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto p-4 sm:p-6">
+    <div className="w-full max-w-md mx-auto p-4 sm:p-6 animate-pop">
       <div
-        className={`relative rounded-3xl p-7 sm:p-9 border transition-all duration-300 ${
+        className={`relative overflow-hidden rounded-3xl p-7 sm:p-9 border shadow-xl transition-all duration-300 ${
           isPastel
-            ? "bg-white/95 border-[#E6E2DA] shadow-paper text-[#1E1B24]"
-            : "bg-[#141418] border-[#24242C] shadow-vinyl text-[#F5F5F7]"
+            ? "bg-white/95 border-purple-200/90 shadow-purple-200/50 text-purple-950"
+            : "bg-zinc-950/95 border-zinc-800 shadow-black text-white"
         }`}
       >
-        {/* Subtle Brand Watermark / Monogram */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-inherit opacity-70">
-          <span className="text-[11px] font-mono tracking-widest uppercase">
-            BTS • 07 GIFTS
-          </span>
-          <span className="text-xs font-serif italic">
-            {isPastel ? "Edición Especial Cumpleaños" : "Arirang Edition '26"}
-          </span>
-        </div>
+        {/* Subtle Top Badge */}
+        <div className="text-center mb-6">
+          <div
+            className={`inline-block p-3 rounded-2xl mb-3 text-2xl shadow-sm border ${
+              isPastel
+                ? "bg-purple-100/80 border-purple-200 text-purple-700"
+                : "bg-red-950/80 border-red-800 text-red-200"
+            }`}
+          >
+            {selectedProfile === "valentina" ? "💜" : "🔑"}
+          </div>
 
-        {/* Header */}
-        <div className="mb-7">
           <p
-            className={`text-xs tracking-wider uppercase mb-1 font-medium ${
-              isPastel ? "text-[#8B6FA8]" : "text-[#C52233]"
+            className={`text-xs font-bold uppercase tracking-wider mb-1 ${
+              isPastel ? "text-purple-600" : "text-red-400"
             }`}
           >
-            {selectedProfile === "valentina" ? "Para Valentina" : "Acceso Administrativo"}
+            {selectedProfile === "valentina" ? "Edición Especial de Cumpleaños" : "Panel de Control"}
           </p>
-          <h1 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight leading-snug">
-            {selectedProfile === "valentina"
-              ? "Siete regalos para celebrar tu día"
-              : "Gestión del Sorteo"}
+
+          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            {selectedProfile === "valentina" ? "¡Hola, Valentina!" : "Modo Administrador"}
           </h1>
+
           <p
-            className={`text-xs sm:text-sm mt-2 leading-relaxed ${
-              isPastel ? "text-[#6E6A78]" : "text-[#8E8D99]"
+            className={`text-xs sm:text-sm mt-2 leading-relaxed font-medium ${
+              isPastel ? "text-purple-800/80" : "text-zinc-400"
             }`}
           >
             {selectedProfile === "valentina"
-              ? "Cada integrante guarda un detalle preparado con todo el amor. Ingresá tu fecha para comenzar."
-              : "Herramienta para control y restablecimiento de regalos."}
+              ? "Tus 7 regalos de BTS están listos para ser sorteados. Ingresá tu fecha para comenzar."
+              : "Acceso para gestión y reinicio del sorteo de regalos."}
           </p>
         </div>
 
         {/* Profile Tabs */}
         <div
-          className={`grid grid-cols-2 p-1 rounded-xl mb-6 border text-xs font-medium ${
+          className={`grid grid-cols-2 p-1.5 rounded-2xl mb-6 border text-xs font-bold ${
             isPastel
-              ? "bg-[#F3F1EC] border-[#E2DED6]"
-              : "bg-[#0E0E12] border-[#202028]"
+              ? "bg-purple-50 border-purple-200/70"
+              : "bg-zinc-900 border-zinc-800"
           }`}
         >
           {USER_PROFILES.map((profile) => {
@@ -92,28 +92,31 @@ export function AuthCard() {
                   setPassword("");
                   setErrorMsg("");
                 }}
-                className={`py-2 px-3 rounded-lg text-center transition-all duration-200 ${
+                className={`py-2 px-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 ${
                   isSelected
                     ? isPastel
-                      ? "bg-white text-[#1E1B24] shadow-sm font-semibold"
-                      : "bg-[#1E1E26] text-[#FFFFFF] shadow-sm font-semibold"
+                      ? "bg-white text-purple-950 shadow-sm font-extrabold"
+                      : "bg-red-600 text-white shadow-sm font-extrabold"
                     : isPastel
-                    ? "text-[#6E6A78] hover:text-[#1E1B24]"
-                    : "text-[#7A7A88] hover:text-[#FFFFFF]"
+                    ? "text-purple-700 hover:text-purple-950 hover:bg-white/50"
+                    : "text-zinc-400 hover:text-white"
                 }`}
               >
-                {profile.name}
+                <span>{profile.id === "valentina" ? "🎂" : "🛠️"}</span>
+                <span>{profile.name}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Password Form */}
+        {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="auth-password-input"
-              className="block text-xs font-medium mb-1.5 opacity-80"
+              className={`block text-xs font-bold uppercase tracking-wider mb-1.5 ${
+                isPastel ? "text-purple-900" : "text-zinc-300"
+              }`}
             >
               Contraseña
             </label>
@@ -124,46 +127,53 @@ export function AuthCard() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={selectedProfile === "valentina" ? "14102026" : "Clave admin"}
-              className={`w-full px-4 py-3 rounded-xl text-sm transition-all outline-none border ${
+              className={`w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all outline-none border ${
                 isPastel
-                  ? "bg-[#FAF9F6] border-[#DCD7CD] text-[#1E1B24] placeholder-[#A09B90] focus:border-[#8B6FA8] focus:bg-white"
-                  : "bg-[#0E0E12] border-[#282834] text-[#F5F5F7] placeholder-[#5A5A6A] focus:border-[#C52233] focus:bg-[#121216]"
+                  ? "bg-white border-purple-200 text-purple-950 placeholder-purple-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
+                  : "bg-zinc-900 border-zinc-700 text-white placeholder-zinc-500 focus:border-red-500 focus:ring-4 focus:ring-red-950/50"
               }`}
               required
             />
 
-            {/* Note */}
-            <p
-              className={`mt-2 text-xs leading-relaxed ${
-                isPastel ? "text-[#7A7584]" : "text-[#7E7D8A]"
+            {/* Hint note */}
+            <div
+              className={`mt-2 flex items-start gap-2 p-2.5 rounded-xl border text-xs ${
+                isPastel
+                  ? "bg-purple-50/80 border-purple-100 text-purple-800"
+                  : "bg-zinc-900 border-zinc-800 text-zinc-400"
               }`}
             >
-              {activeProfileData?.defaultPasswordHint}
-            </p>
+              <span className="text-sm">💡</span>
+              <div>
+                <span className="font-bold">Pista: </span>
+                <span className="font-medium">{activeProfileData?.defaultPasswordHint}</span>
+              </div>
+            </div>
           </div>
 
           {errorMsg && (
             <div
-              className={`p-3 rounded-xl text-xs border ${
+              className={`p-3 rounded-xl text-xs font-bold border flex items-center gap-2 ${
                 isPastel
-                  ? "bg-[#FFF0F2] border-[#F2C4CB] text-[#9E2A38]"
-                  : "bg-[#2A0E12] border-[#661822] text-[#F497A3]"
+                  ? "bg-red-50 border-red-200 text-red-600"
+                  : "bg-red-950/80 border-red-700 text-red-200"
               }`}
             >
-              {errorMsg}
+              <span>⚠️</span>
+              <span>{errorMsg}</span>
             </div>
           )}
 
           <button
             type="submit"
             disabled={isSubmitting || !password}
-            className={`w-full py-3.5 px-4 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none ${
+            className={`w-full py-3.5 px-4 rounded-2xl font-bold text-sm tracking-wide shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${
               isPastel
-                ? "bg-[#252030] text-white hover:bg-[#342D44] active:scale-[0.99]"
-                : "bg-[#C52233] text-white hover:bg-[#D92D3F] active:scale-[0.99]"
+                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white shadow-purple-200 hover:shadow-purple-300"
+                : "bg-red-600 text-white shadow-red-950 hover:bg-red-700"
             }`}
           >
-            {selectedProfile === "valentina" ? "Comenzar la experiencia" : "Ingresar"}
+            {selectedProfile === "valentina" ? "Comenzar el Sorteo 🎁" : "Ingresar"}
           </button>
         </form>
       </div>

@@ -6,6 +6,17 @@ import { useTheme } from "@/context/ThemeContext";
 import { BTS_MEMBERS } from "@/data/btsMembers";
 import { MemberAvatar } from "@/components/MemberAvatar";
 
+// Member specific accent colors for pastel cards
+const PASTEL_ACCENTS = [
+  { bg: "from-purple-100 to-purple-50", border: "border-purple-300", tag: "bg-purple-200 text-purple-900" }, // 1: Yoongi
+  { bg: "from-pink-100 to-pink-50", border: "border-pink-300", tag: "bg-pink-200 text-pink-900" },          // 2: Tae
+  { bg: "from-amber-100 to-yellow-50", border: "border-amber-300", tag: "bg-amber-200 text-amber-900" },     // 3: Jimin
+  { bg: "from-sky-100 to-cyan-50", border: "border-sky-300", tag: "bg-sky-200 text-sky-900" },              // 4: Namjoon
+  { bg: "from-orange-100 to-rose-50", border: "border-orange-300", tag: "bg-orange-200 text-orange-900" },    // 5: Jin
+  { bg: "from-emerald-100 to-teal-50", border: "border-emerald-300", tag: "bg-emerald-200 text-emerald-900" },// 6: Hobi
+  { bg: "from-violet-100 to-fuchsia-50", border: "border-violet-300", tag: "bg-violet-200 text-violet-900" }, // 7: Jungkook
+];
+
 export function GiftProgressTrack() {
   const { drawnNumbers, openMemberModal } = useLottery();
   const { theme } = useTheme();
@@ -13,93 +24,164 @@ export function GiftProgressTrack() {
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4 py-8">
-      {/* Editorial Section Header */}
+      {/* Festive Header */}
       <div className="text-center mb-8">
-        <span className="text-[10px] font-mono tracking-widest uppercase opacity-65">
-          Colección de Siete Entregas
+        <span
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2 ${
+            isPastel
+              ? "bg-purple-100 text-purple-800 border border-purple-200"
+              : "bg-red-950 text-red-200 border border-red-800"
+          }`}
+        >
+          <span>🎉</span>
+          <span>Los 7 Regalos de Cumpleaños</span>
+          <span>🎉</span>
         </span>
-        <h2 className="text-xl sm:text-2xl font-serif font-normal tracking-tight mt-1">
-          Las Siete Fichas de Valentina
+        <h2
+          className={`text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 ${
+            isPastel ? "text-purple-950" : "text-white"
+          }`}
+        >
+          Tus Regalos y Mensajes Especiales
         </h2>
-        <p className="text-xs max-w-md mx-auto opacity-70 mt-1 leading-relaxed">
-          Cada tarjeta representa un regalo físico y un mensaje especial. Podés volver a abrir cualquier carta descubierta en cualquier momento.
+        <p
+          className={`text-xs sm:text-sm max-w-md mx-auto mt-1.5 font-medium leading-relaxed ${
+            isPastel ? "text-purple-800/80" : "text-zinc-400"
+          }`}
+        >
+          Cada tarjeta representa un regalo físico con su dedicatoria. Podés tocar cualquier carta descubierta para releerla las veces que quieras.
         </p>
       </div>
 
       {/* Grid of 7 Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {BTS_MEMBERS.map((member) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+        {BTS_MEMBERS.map((member, idx) => {
           const isDrawn = drawnNumbers.includes(member.number);
+          const accent = PASTEL_ACCENTS[idx];
 
           if (isDrawn) {
-            // Unlocked Card
+            // Unlocked Card: Festive photocard
             return (
               <div
                 key={member.id}
                 onClick={() => openMemberModal(member)}
-                className={`group relative rounded-2xl p-4 sm:p-5 border cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${
+                className={`group relative rounded-3xl p-5 border-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                   isPastel
-                    ? "bg-white border-[#E6E1D8] shadow-paper hover:border-[#C8C2B6]"
-                    : "bg-[#141418] border-[#24242C] shadow-vinyl hover:border-[#383844]"
+                    ? `bg-gradient-to-br ${accent.bg} ${accent.border} shadow-md`
+                    : "bg-zinc-900 border-red-700/80 shadow-md hover:border-red-500"
                 }`}
               >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-mono tracking-wider opacity-65">
-                    0{member.number} / 07
+                <div className="flex items-center justify-between mb-3.5">
+                  <span
+                    className={`text-xs font-extrabold px-2.5 py-0.5 rounded-full ${
+                      isPastel ? accent.tag : "bg-red-950 text-red-300 border border-red-800"
+                    }`}
+                  >
+                    Regalo #0{member.number}
                   </span>
-                  <span className="text-[10px] font-medium opacity-80 text-emerald-600 dark:text-emerald-400">
-                    Desbloqueado
+                  <span className="text-xs font-extrabold flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
+                    <span>✨</span>
+                    <span>¡Descubierto!</span>
                   </span>
                 </div>
 
-                <div className="flex items-center gap-3 mb-3">
+                <div className="flex items-center gap-3.5 mb-3.5">
                   <MemberAvatar member={member} size="md" />
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-sm font-serif font-normal truncate">
+                    <h3
+                      className={`text-base font-extrabold leading-snug truncate ${
+                        isPastel ? "text-purple-950" : "text-white"
+                      }`}
+                    >
                       {member.name}
                     </h3>
-                    <p className="text-xs opacity-75 truncate">
+                    <p
+                      className={`text-xs font-bold truncate ${
+                        isPastel ? "text-pink-600" : "text-red-400"
+                      }`}
+                    >
                       {member.stageName}
                     </p>
-                    <span className="text-[10px] font-mono opacity-50 block mt-0.5">
-                      {member.koreanName}
+                    <span
+                      className={`text-[11px] font-medium block mt-0.5 ${
+                        isPastel ? "text-purple-700/70" : "text-zinc-400"
+                      }`}
+                    >
+                      {member.koreanName} • {member.role}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-xs font-serif italic line-clamp-2 mb-3 opacity-80 leading-relaxed">
+                <p
+                  className={`text-xs font-medium line-clamp-2 mb-3.5 leading-relaxed ${
+                    isPastel ? "text-purple-900" : "text-zinc-300"
+                  }`}
+                >
                   &ldquo;{member.quote}&rdquo;
                 </p>
 
-                <div className="pt-2 border-t border-inherit text-[11px] font-medium flex items-center justify-between opacity-75 group-hover:opacity-100 transition-opacity">
-                  <span>Leer dedicatoria</span>
-                  <span className="font-mono">→</span>
+                <div
+                  className={`pt-2.5 border-t text-xs font-bold flex items-center justify-between transition-colors ${
+                    isPastel
+                      ? "border-purple-200/60 text-purple-700 group-hover:text-purple-950"
+                      : "border-zinc-800 text-red-400 group-hover:text-red-300"
+                  }`}
+                >
+                  <span>Ver dedicatoria y pista</span>
+                  <span className="transition-transform group-hover:translate-x-1">💜 →</span>
                 </div>
               </div>
             );
           }
 
-          // Locked / Pending Slot
+          // Locked / Pending Slot: Festive mystery gift box
           return (
             <div
               key={member.id}
-              className={`relative rounded-2xl p-5 border border-dashed flex flex-col items-center justify-center text-center transition-opacity opacity-75 ${
+              className={`relative rounded-3xl p-5 border-2 border-dashed flex flex-col items-center justify-center text-center transition-all duration-200 ${
                 isPastel
-                  ? "bg-[#FAF9F5] border-[#DCD7CD] text-[#7A7584]"
-                  : "bg-[#0E0E12] border-[#22222A] text-[#6E6E7C]"
+                  ? "bg-white/60 border-purple-200/80 text-purple-900"
+                  : "bg-zinc-950/70 border-zinc-800 text-zinc-400"
               }`}
             >
-              <span className="text-[10px] font-mono tracking-widest opacity-60 mb-2">
-                0{member.number}
+              <div
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-2.5 shadow-sm border ${
+                  isPastel
+                    ? "bg-purple-100/70 border-purple-200 text-purple-600"
+                    : "bg-zinc-900 border-zinc-800 text-red-400"
+                }`}
+              >
+                🎁
+              </div>
+              <span
+                className={`text-xs font-extrabold uppercase tracking-wider mb-1 ${
+                  isPastel ? "text-purple-600" : "text-zinc-400"
+                }`}
+              >
+                Regalo #0{member.number}
               </span>
-              <h3 className="text-xs font-serif font-normal">
+              <h3
+                className={`text-sm font-extrabold ${
+                  isPastel ? "text-purple-950" : "text-zinc-200"
+                }`}
+              >
                 {member.name}
               </h3>
-              <span className="text-[10px] font-mono opacity-50 mt-0.5">
+              <span
+                className={`text-[11px] font-medium mt-0.5 ${
+                  isPastel ? "text-purple-700/60" : "text-zinc-500"
+                }`}
+              >
                 {member.koreanName}
               </span>
-              <span className="text-[10px] opacity-60 mt-3">
-                Pendiente de sorteo
+              <span
+                className={`text-xs font-bold px-3 py-1 rounded-full mt-3.5 border ${
+                  isPastel
+                    ? "bg-purple-100/60 border-purple-200 text-purple-700"
+                    : "bg-zinc-900 border-zinc-800 text-zinc-400"
+                }`}
+              >
+                ¡Esperando su turno! ✨
               </span>
             </div>
           );

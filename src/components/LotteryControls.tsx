@@ -19,53 +19,86 @@ export function LotteryControls() {
   const isPastel = theme === "pastel";
   const total = 7;
   const countDrawn = drawnNumbers.length;
+  const progressPercent = Math.round((countDrawn / total) * 100);
 
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-2">
       <div
-        className={`p-5 sm:p-6 rounded-3xl border transition-all duration-300 ${
+        className={`p-5 sm:p-6 rounded-3xl border shadow-lg transition-all duration-300 ${
           isPastel
-            ? "bg-white border-[#E6E1D8] shadow-paper text-[#1E1B24]"
-            : "bg-[#141418] border-[#24242C] shadow-vinyl text-[#F5F5F7]"
+            ? "bg-white/90 border-purple-200/80 shadow-purple-100/50 text-purple-950"
+            : "bg-zinc-950/90 border-zinc-800 shadow-zinc-950 text-white"
         }`}
       >
         {/* Header Progress Counter */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h3 className="text-xs font-mono tracking-widest uppercase opacity-75">
-              Estado de la Entrega
-            </h3>
-            <p className="text-base sm:text-lg font-serif font-normal mt-0.5">
-              {isCompleted
-                ? "Todos los regalos han sido develados"
-                : `${countDrawn} de ${total} descubiertos`}
-            </p>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🎁</span>
+            <div>
+              <h3 className="text-sm font-extrabold leading-tight">
+                Progreso de Regalos
+              </h3>
+              <p
+                className={`text-xs font-semibold ${
+                  isPastel ? "text-purple-600" : "text-zinc-400"
+                }`}
+              >
+                {isCompleted
+                  ? "¡Completaste todos los regalos! 🎉"
+                  : `${countDrawn} de ${total} descubiertos (${remainingNumbers.length} pendientes)`}
+              </p>
+            </div>
           </div>
-          <span className="text-xs font-mono font-medium opacity-60">
-            {remainingNumbers.length} restantes
+
+          <span
+            className={`px-3 py-1 rounded-full text-xs font-extrabold border ${
+              isPastel
+                ? "bg-purple-100 text-purple-800 border-purple-200"
+                : "bg-red-950 text-red-200 border-red-800"
+            }`}
+          >
+            {progressPercent}%
           </span>
         </div>
 
-        {/* Minimal Stepper Bar */}
-        <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-5">
+        {/* Progress Bar */}
+        <div
+          className={`w-full h-3 rounded-full overflow-hidden mb-4 border ${
+            isPastel
+              ? "bg-purple-100/70 border-purple-200"
+              : "bg-zinc-800 border-zinc-700"
+          }`}
+        >
+          <div
+            className={`h-full transition-all duration-700 rounded-full ${
+              isPastel
+                ? "bg-gradient-to-r from-purple-500 via-pink-400 to-amber-300"
+                : "bg-gradient-to-r from-red-600 via-red-500 to-white"
+            }`}
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
+
+        {/* Numbers Status Badges */}
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-4">
           {[1, 2, 3, 4, 5, 6, 7].map((num) => {
             const isDrawn = drawnNumbers.includes(num);
             return (
               <div
                 key={num}
-                className={`flex flex-col items-center justify-center py-2 rounded-xl text-center border transition-all duration-300 ${
+                className={`flex flex-col items-center justify-center py-2 rounded-xl text-xs font-bold border transition-all duration-300 ${
                   isDrawn
                     ? isPastel
-                      ? "bg-[#F0ECE4] border-[#E0DCD2] text-[#8C8678]"
-                      : "bg-[#1D1D24] border-[#2A2A36] text-[#727280]"
+                      ? "bg-purple-100/80 border-purple-300 text-purple-900 line-through opacity-70"
+                      : "bg-zinc-800 border-zinc-700 text-zinc-500 line-through opacity-60"
                     : isPastel
-                    ? "bg-[#FAF9F6] border-[#E8E4DA] text-[#2C2738] font-semibold"
-                    : "bg-[#0E0E12] border-[#24242E] text-[#E4E4EC] font-semibold"
+                    ? "bg-white border-purple-200 text-purple-950 shadow-sm"
+                    : "bg-zinc-900 border-red-900/60 text-red-200 shadow-sm"
                 }`}
               >
-                <span className="text-[10px] font-mono opacity-60">#{num}</span>
-                <span className="text-xs mt-0.5">
-                  {isDrawn ? "—" : "•"}
+                <span>#{num}</span>
+                <span className="text-[10px] mt-0.5">
+                  {isDrawn ? "✓" : "✨"}
                 </span>
               </div>
             );
@@ -78,18 +111,18 @@ export function LotteryControls() {
             type="button"
             onClick={spin}
             disabled={isSpinning || isCompleted}
-            className={`flex-1 py-3 px-5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none active:scale-[0.99] ${
+            className={`flex-1 py-3.5 px-5 rounded-2xl font-bold text-sm shadow-md transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none hover:scale-[1.02] active:scale-[0.98] ${
               isPastel
-                ? "bg-[#252030] text-white hover:bg-[#342D44]"
-                : "bg-[#C52233] text-white hover:bg-[#D92537]"
+                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
+                : "bg-gradient-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
             }`}
           >
             {isSpinning
-              ? "Girando..."
+              ? "Girando la ruleta..."
               : isCompleted
-              ? "Colección completa"
+              ? "¡Todos los regalos sorteados! 💜"
               : countDrawn === 0
-              ? "Iniciar con el primer regalo"
+              ? "Comenzar con el primer regalo 🎁"
               : `Sortear siguiente regalo (${remainingNumbers.length} disponibles)`}
           </button>
 
@@ -97,39 +130,40 @@ export function LotteryControls() {
             type="button"
             onClick={() => setShowResetConfirm(true)}
             disabled={isSpinning || countDrawn === 0}
-            className={`px-4 py-3 rounded-xl text-xs font-mono uppercase tracking-wider border transition-all duration-200 disabled:opacity-30 disabled:pointer-events-none ${
+            className={`px-3.5 py-3 rounded-2xl text-xs font-bold border transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${
               isPastel
-                ? "bg-[#F8F7F4] border-[#DDD7CD] text-[#555060] hover:bg-[#EFECE4]"
-                : "bg-[#0E0E12] border-[#282834] text-[#8E8D99] hover:bg-[#1A1A22]"
+                ? "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
+                : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
             }`}
-            title="Reiniciar el sorteo"
+            title="Reiniciar sorteo"
           >
-            Reiniciar
+            🔄
           </button>
         </div>
       </div>
 
       {/* Confirmation Modal */}
       {showResetConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-reveal">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-pop">
           <div
-            className={`w-full max-w-sm rounded-3xl p-6 sm:p-7 border ${
+            className={`w-full max-w-sm rounded-3xl p-6 sm:p-7 border shadow-2xl ${
               isPastel
-                ? "bg-white border-[#E6E1D8] text-[#1E1B24]"
-                : "bg-[#141418] border-[#262630] text-white"
+                ? "bg-white border-purple-200 text-purple-950"
+                : "bg-zinc-900 border-red-900 text-white"
             }`}
           >
-            <h4 className="text-base font-serif font-normal mb-2">
-              ¿Deseas reiniciar el sorteo?
+            <div className="text-3xl mb-2 text-center">⚠️</div>
+            <h4 className="text-base font-bold text-center mb-1">
+              ¿Reiniciar el sorteo?
             </h4>
-            <p className="text-xs opacity-75 mb-6 leading-relaxed">
-              Los siete números volverán a quedar disponibles en la ruleta para comenzar una nueva entrega.
+            <p className="text-xs text-center opacity-80 mb-5 leading-relaxed">
+              Los siete números volverán a quedar disponibles para comenzar una nueva entrega de regalos.
             </p>
             <div className="flex gap-2.5">
               <button
                 type="button"
                 onClick={() => setShowResetConfirm(false)}
-                className="flex-1 py-2.5 rounded-xl text-xs font-medium border border-inherit opacity-80 hover:opacity-100"
+                className="flex-1 py-2.5 rounded-xl text-xs font-bold border border-zinc-300 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
               >
                 Cancelar
               </button>
@@ -139,11 +173,9 @@ export function LotteryControls() {
                   resetLottery();
                   setShowResetConfirm(false);
                 }}
-                className={`flex-1 py-2.5 rounded-xl text-xs font-semibold text-white ${
-                  isPastel ? "bg-[#252030]" : "bg-[#C52233]"
-                }`}
+                className="flex-1 py-2.5 rounded-xl text-xs font-bold bg-red-600 text-white hover:bg-red-700"
               >
-                Confirmar
+                Sí, reiniciar
               </button>
             </div>
           </div>
