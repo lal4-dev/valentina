@@ -2,12 +2,14 @@
 
 ## Context
 
-La aplicación es un proyecto sobre Next.js (App Router, React 19) con Tailwind CSS v4. Debe ofrecer una experiencia web interactiva, responsive y estética con dos modos visuales (Pastel Gifts y Arirang Concierto Argentina en rojo/negro/blanco), acompañando la entrega de 7 regalos de cumpleaños.
+La aplicación es un proyecto sobre Next.js (App Router, React 19) con Tailwind CSS v4. Ofrece una experiencia web interactiva, responsive y estética con dos modos visuales (Pastel Gifts y Arirang Concierto Argentina en rojo/negro/blanco), acompañando la entrega de 7 regalos de cumpleaños para Valentina según sus preferencias de integrantes de BTS.
 
 ## Goals / Non-Goals
 
 **Goals:**
-- Implementar login amigable con perfiles: Valentina (clave `14102026`) y Admin.
+- Pantalla de bloqueo con temporizador en tiempo real hasta el 14 de Octubre de 2026, 00:00:00 hs de Argentina (UTC-3).
+- Login intuitivo con perfiles: Valentina (clave `14102026`) y Administrador (clave `admin290344`).
+- Panel de control en `/admin` para probar la ruleta sin restricciones de fecha, simular el contador en vivo o en cero, y reiniciar el progreso.
 - Orden predefinido de los 7 miembros:
   1. Yoongi (SUGA)
   2. Tae (V)
@@ -16,38 +18,47 @@ La aplicación es un proyecto sobre Next.js (App Router, React 19) con Tailwind 
   5. Jin
   6. Hobi (j-hope)
   7. Jungkook
+- Lógica de sorteo con reglas determinísticas:
+  - Giro 1: Siempre Namjoon (#4, carta del corazón).
+  - Giros 2 al 6: Aleatorios entre los pendientes, excluyendo el #7.
+  - Giro 7: Siempre Jungkook (#7, brindis final).
 - Soporte dual de temas con botón flotante accesible en todo momento:
-  - **Pastel Gifts**: Rosa pastel, amarillo pastel, celeste, menta, lila Borahae.
+  - **Pastel Gifts**: Lavanda, violeta Borahae, rosa pastel, amarillo suave.
   - **Arirang Concierto**: Rojo rubí, negro mate, blanco puro.
-- Ruleta SVG interactiva que descuenta progresivamente los números del 1 al 7.
-- Persistencia en `localStorage` (progreso de regalos y preferencia de tema).
-- Soporte de imágenes en `public/members/` para que el usuario pueda colocar sus PNGs (con avatares ilustrados estilizados como fallback).
+- Persistencia sincrónica en `localStorage` libre de errores de hidratación mediante `useSyncExternalStore`.
+- Código fuente, nombres de archivos, funciones y variables íntegramente en español con comentarios de sección estructurados.
 
 **Non-Goals:**
-- Backend con base de datos externa; todo corre de forma reactiva y autónoma en cliente.
+- Base de datos externa o backend centralizado; la aplicación corre de forma reactiva y autónoma en el navegador.
 
 ## Decisions
 
-### 1. Sistema de Temas: `ThemeContext` y Clases CSS Variables
-- **Decisión**: Un contexto de tema que aplica un atributo o clase de datos (`data-theme="pastel"` o `data-theme="arirang"`) al contenedor raíz o al elemento `html`. Tailwind CSS v4 y variables CSS adaptan los colores de fondo, gradientes, bordes y botones de inmediato sin recargar la página.
-- **Botón Flotante**: Un componente `ThemeToggleFAB` ubicado en una esquina superior o inferior derecha, con icono animado y selector de modo ("🌸 Pastel Gifts" / "🔥 Arirang Concierto").
+### 1. Sistema de Temas: `ContextoTema` y Atributo `data-theme`
+- **Decisión**: Un contexto de tema (`ProveedorTema`) que sincroniza el tema preferido en `localStorage` (`bts_valentina_theme`) y aplica el atributo `data-theme="pastel"` o `data-theme="arirang"` en la raíz del documento.
+- **Botón Flotante (`BotonCambioTema`)**: Accesible en la esquina superior de todas las pantallas con animación suave y cambio reactivo instantáneo.
 
-### 2. Estructura de Datos de Integrantes (`src/data/btsMembers.ts`)
-- Mapeo estricto del 1 al 7:
-  - `id`: 1 al 7
-  - `name`: Nombre artístico
-  - `realName`: Nombre real
-  - `quote`: Frase icónica
-  - `birthdayMessage`: Mensaje amoroso personalizado
-  - `giftHint`: Pista o descripción del regalo
-  - `pastelColor`: Color pastel distintivo
-  - `arirangColor`: Color de acento estilo Arirang (rojo/blanco/negro)
-  - `imagePath`: Ruta en `public/members/` (ej: `/members/yoongi.png`)
+### 2. Bloqueo Temporal y Cuenta Regresiva (`PantallaBloqueoCumple`)
+- **Decisión**: El timestamp objetivo está fijado en `1791946800000` (`2026-10-14T00:00:00-03:00`). Un intervalo de un segundo actualiza la cuenta regresiva formateada en Días, Horas, Minutos y Segundos.
+- **Corazón Reactivo**: El avatar de Valentina en la pantalla de espera incluye un emblema de corazón que se tiñe de violeta en modo Pastel y de rojo en modo Arirang.
+- **Desbloqueo**: Al alcanzar el tiempo objetivo o simularse en `/admin`, la pantalla habilita el botón de inicio festivo con confeti.
 
-### 3. Animación de Ruleta y Extracción
-- Ruleta SVG con 7 sectores. Cuando un número ya salió, su sector se atenúa o se marca con un check visual.
-- El generador de números aleatorios selecciona exclusivamente entre los pendientes `remainingNumbers`. La ruleta gira con rotación acumulativa `currentRotation + 360 * spins + targetAngle` con curva `cubic-bezier(0.15, 0.9, 0.2, 1)`.
+### 3. Ruleta de Sorteo y Selección Controlada (`ContextoRuleta`)
+- **Decisión**: Ruleta circular en SVG con 7 sectores de 51.42 grados cada uno.
+- **Fórmula de Giro**: Giro acumulativo `rotacion + 360 * 5 + desplazamiento` con física `cubic-bezier(0.15, 0.9, 0.2, 1)`.
+- **Lógica de Asignación**:
+  - `numerosSorteados.length === 0`: Garantiza selección del número 4.
+  - `numerosSorteados.length === 6`: Garantiza selección del número 7.
+  - Intermedios: Selección pseudoaleatoria filtrando el 7 (`numerosRestantes.filter(n => n !== 7)`).
+- **Reinicio**: La acción de reinicio de la ruleta se removió de la vista principal de Valentina y se reservó exclusivamente al panel `/admin`.
+
+### 4. Estructura de Datos en Español (`miembrosBts.ts` y `configuracionAutenticacion.ts`)
+- **Decisión**: Modelos de TypeScript con tipado fuerte en español (`MiembroBTS`, `PerfilUsuario`, `PaletaColorTema`, `IdentificadorUsuario`).
+- Las carpetas del proyecto se mantienen en inglés por convención de Next.js (`src/app`, `src/components`, `src/context`, `src/data`, `src/hooks`).
+
+### 5. Tolerancia a Fallos en Carga de Imágenes
+- **Decisión**: El componente `AvatarMiembro` itera sobre una lista de rutas candidatas (`/img/pastel/`, `/img/arirang/`, `/img/`). Si ninguna existe o falla la carga, conmuta a una photocard conmemorativa con el nombre, número de miembro y colores del tema activo.
 
 ## Risks / Trade-offs
 
-- **[Carga de imágenes PNG locales]** → Si los archivos PNG no existen aún en `public/members/`, el componente de imagen detecta el fallback y muestra una ilustración vectorial con el nombre y avatar estilizado del integrante para que la aplicación nunca se vea rota.
+- **[Diferencias de zona horaria local]** → El timestamp del cumpleaños está calculado explícitamente con desfase horario de Argentina (`-03:00`), garantizando que Valentina desbloquee a medianoche exacta en su país sin importar la zona horaria del navegador.
+- **[Persistencia entre sesiones]** → El uso de `useSyncExternalStore` previene discrepancias de hidratación en Server Side Rendering (SSR) mientras mantiene sincronizados todos los componentes.
