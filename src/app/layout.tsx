@@ -4,7 +4,6 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { AuthProvider } from "@/context/AuthContext";
 import { LotteryProvider } from "@/context/LotteryContext";
-import { ThemeToggleFAB } from "@/components/ThemeToggleFAB";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -40,7 +39,6 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthProvider>
             <LotteryProvider>
-              <ThemeToggleFAB />
               {children}
             </LotteryProvider>
           </AuthProvider>

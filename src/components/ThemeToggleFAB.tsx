@@ -3,40 +3,40 @@
 import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 
-export function ThemeToggleFAB() {
+interface ThemeToggleProps {
+  className?: string;
+}
+
+export function ThemeToggle({ className = "" }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
   const isPastel = theme === "pastel";
 
   return (
-    <div className="fixed top-5 right-5 z-50">
-      <button
-        onClick={toggleTheme}
-        type="button"
-        className={`group flex items-center gap-3 px-3.5 py-2 rounded-full text-xs tracking-normal transition-all duration-300 border backdrop-blur-md ${
-          isPastel
-            ? "bg-white/80 border-[#E4E0D7] text-[#2C2738] shadow-sm hover:border-[#C5BFB0] hover:bg-white"
-            : "bg-[#141418]/90 border-[#2A2A34] text-[#E4E4E8] shadow-sm hover:border-[#3E3E4C] hover:bg-[#1A1A20]"
+    <button
+      onClick={toggleTheme}
+      type="button"
+      className={`group flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold transition-all duration-200 border shadow-xs hover:scale-102 active:scale-98 ${
+        isPastel
+          ? "bg-white/90 border-purple-200 text-purple-900 hover:bg-purple-50 hover:border-purple-300"
+          : "bg-zinc-900/90 border-zinc-700 text-zinc-200 hover:bg-zinc-800 hover:border-zinc-500"
+      } ${className}`}
+      aria-label="Cambiar tema visual"
+      title={isPastel ? "Cambiar a Modo Arirang Tour" : "Cambiar a Modo Cumpleaños Pastel"}
+    >
+      <span
+        className={`w-2.5 h-2.5 rounded-full transition-transform duration-200 group-hover:scale-125 ${
+          isPastel ? "bg-purple-500" : "bg-red-500"
         }`}
-        aria-label="Cambiar tema visual"
-      >
-        <span
-          className={`inline-block w-2 h-2 rounded-full transition-colors duration-300 ${
-            isPastel ? "bg-[#9A80B4]" : "bg-[#C52233]"
-          }`}
-        />
-        <div className="flex flex-col text-left">
-          <span className="font-medium text-[11px] leading-tight">
-            {isPastel ? "Pastel Atelier" : "Arirang Tour"}
-          </span>
-          <span
-            className={`text-[9px] transition-colors leading-none ${
-              isPastel ? "text-[#7B7586]" : "text-[#8E8D99]"
-            }`}
-          >
-            {isPastel ? "Modo Concierto" : "Modo Pastel"}
-          </span>
-        </div>
-      </button>
-    </div>
+      />
+      <span className="font-extrabold text-[11px] whitespace-nowrap">
+        {isPastel ? "Modo Pastel" : "Modo Arirang"}
+      </span>
+      <span className="text-[10px] opacity-60 font-normal hidden lg:inline">
+        ({isPastel ? "🌸" : "🇦🇷"})
+      </span>
+    </button>
   );
 }
+
+// Backward compatibility export if needed
+export const ThemeToggleFAB = ThemeToggle;

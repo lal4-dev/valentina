@@ -1,6 +1,7 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import confetti from "canvas-confetti";
 import { useLottery } from "@/context/LotteryContext";
 import { useTheme } from "@/context/ThemeContext";
 import { MemberAvatar } from "@/components/MemberAvatar";
@@ -10,10 +11,50 @@ export function MemberRevealModal() {
   const { theme } = useTheme();
   const isPastel = theme === "pastel";
 
+  // Trigger celebration confetti when modal opens
+  useEffect(() => {
+    if (activeMember) {
+      const colors = isPastel
+        ? ["#C084FC", "#F472B6", "#FDE047", "#60A5FA", "#34D399", "#A78BFA"]
+        : ["#EF4444", "#DC2626", "#FFFFFF", "#B91C1C", "#F87171"];
+
+      // Initial center explosion
+      confetti({
+        particleCount: 90,
+        spread: 80,
+        origin: { y: 0.55 },
+        colors,
+        zIndex: 60,
+      });
+
+      // Side showers for extra celebration
+      const timer = setTimeout(() => {
+        confetti({
+          particleCount: 40,
+          angle: 60,
+          spread: 60,
+          origin: { x: 0.1, y: 0.6 },
+          colors,
+          zIndex: 60,
+        });
+        confetti({
+          particleCount: 40,
+          angle: 120,
+          spread: 60,
+          origin: { x: 0.9, y: 0.6 },
+          colors,
+          zIndex: 60,
+        });
+      }, 250);
+
+      return () => clearTimeout(timer);
+    }
+  }, [activeMember, isPastel]);
+
   if (!activeMember) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-pop">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-pop">
       <div
         className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-300 max-h-[92vh] overflow-y-auto ${
           isPastel
@@ -137,7 +178,7 @@ export function MemberRevealModal() {
           onClick={closeMemberModal}
           className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
             isPastel
-              ? "bg-linear-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
+              ? "bg-linear-to-r from-purple-600 via-violet-600 to-purple-700 text-white shadow-purple-300/40 hover:from-purple-500 hover:to-purple-600"
               : "bg-linear-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
           }`}
         >

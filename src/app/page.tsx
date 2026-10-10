@@ -8,6 +8,9 @@ import { RouletteWheel } from "@/components/RouletteWheel";
 import { LotteryControls } from "@/components/LotteryControls";
 import { GiftProgressTrack } from "@/components/GiftProgressTrack";
 import { MemberRevealModal } from "@/components/MemberRevealModal";
+import { ConcertCountdown } from "@/components/ConcertCountdown";
+import { UserHeaderAvatar } from "@/components/UserHeaderAvatar";
+import { ThemeToggle } from "@/components/ThemeToggleFAB";
 
 export default function HomePage() {
   const { isAuthenticated, currentUser, logout, isAdmin } = useAuth();
@@ -18,6 +21,9 @@ export default function HomePage() {
   if (!isAuthenticated) {
     return (
       <main className="min-h-screen flex flex-col justify-center items-center py-10 px-4 relative">
+        <div className="absolute top-5 right-5 z-20">
+          <ThemeToggle />
+        </div>
         <AuthCard />
       </main>
     );
@@ -28,26 +34,19 @@ export default function HomePage() {
     <main className="min-h-screen flex flex-col relative transition-colors duration-300 pb-16">
       {/* Navbar */}
       <header
-        className={`sticky top-0 z-40 backdrop-blur-md border-b px-5 sm:px-10 py-3.5 flex items-center justify-between transition-colors duration-300 ${
+        className={`sticky top-0 z-40 backdrop-blur-md border-b px-4 sm:px-8 py-3 flex items-center justify-between transition-colors duration-300 ${
           isPastel
-            ? "bg-white/80 border-purple-200/60 shadow-sm"
-            : "bg-zinc-950/85 border-zinc-800 shadow-sm"
+            ? "bg-white/85 border-purple-200/80 shadow-xs"
+            : "bg-zinc-950/90 border-zinc-800 shadow-xs"
         }`}
       >
+        {/* Left: User Profile with photo placeholder */}
         <div className="flex items-center gap-3">
-          <div
-            className={`w-9 h-9 rounded-2xl flex items-center justify-center font-bold text-sm border shadow-sm ${
-              isPastel
-                ? "bg-purple-100 text-purple-700 border-purple-200"
-                : "bg-red-950 text-red-200 border-red-800"
-            }`}
-          >
-            {currentUser?.id === "valentina" ? "💜" : "🛠️"}
-          </div>
+          <UserHeaderAvatar userId={currentUser?.id} name={currentUser?.name} />
           <div>
             <div className="flex items-center gap-2">
               <span
-                className={`font-extrabold text-sm sm:text-base leading-none ${
+                className={`font-black text-sm sm:text-base leading-none ${
                   isPastel ? "text-purple-950" : "text-white"
                 }`}
               >
@@ -69,23 +68,16 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Right side info (keeps clearance for FAB toggle on top-right) */}
-        <div className="flex items-center gap-3 sm:gap-4 mr-36 sm:mr-44">
-          <div
-            className={`hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shadow-sm ${
-              isPastel
-                ? "bg-purple-50 text-purple-700 border-purple-200"
-                : "bg-red-950 text-red-200 border-red-800"
-            }`}
-          >
-            <span>🇦🇷</span>
-            <span>Arirang Argentina • ¡3 semanas!</span>
-          </div>
+        {/* Right side: Countdown, Theme Toggle, Logout */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ConcertCountdown />
+
+          <ThemeToggle />
 
           <button
             onClick={logout}
             type="button"
-            className={`text-xs font-bold px-3 py-1.5 rounded-xl border transition-all duration-200 hover:scale-105 active:scale-95 ${
+            className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all duration-200 hover:scale-105 active:scale-95 ${
               isPastel
                 ? "bg-white border-purple-200 text-purple-700 hover:bg-purple-50"
                 : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
@@ -99,7 +91,7 @@ export default function HomePage() {
       {/* Hero Welcome Banner */}
       <section className="text-center pt-8 sm:pt-12 px-4 max-w-2xl mx-auto">
         <div
-          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide mb-3 shadow-sm border ${
+          className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide mb-3 shadow-xs border ${
             isPastel
               ? "bg-purple-100 text-purple-700 border-purple-200"
               : "bg-red-950 text-red-200 border-red-800"
@@ -125,7 +117,7 @@ export default function HomePage() {
             isPastel ? "text-purple-800/80" : "text-zinc-300"
           }`}
         >
-          Siete regalos preparados con todo el amor, uno por cada miembro de BTS. Girad la ruleta para develar cada regalo y su mensaje.
+          Siete regalos preparados con todo el amor, uno por cada miembro de BTS.
         </p>
       </section>
 
@@ -151,7 +143,7 @@ export default function HomePage() {
             : "border-zinc-800 text-zinc-500"
         }`}
       >
-        <p>Hecho con mucho amor 💜 • Borahae Valentina • BTS &amp; Arirang 2026</p>
+        <p>Hecho con mucho amor para Valentina 💜 • Feliz Cumpleaños 2026</p>
       </footer>
     </main>
   );

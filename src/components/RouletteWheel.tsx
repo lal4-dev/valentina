@@ -195,7 +195,7 @@ export function RouletteWheel() {
               disabled={isSpinning || isCompleted}
               className={`pointer-events-auto w-24 h-24 rounded-full flex flex-col items-center justify-center font-bold text-xs shadow-xl transition-all duration-300 active:scale-95 disabled:pointer-events-none disabled:opacity-60 ${
                 isPastel
-                  ? "bg-linear-to-tr from-purple-600 via-pink-500 to-amber-300 text-white shadow-purple-400/50 hover:scale-105"
+                  ? "bg-linear-to-tr from-purple-700 via-purple-600 to-violet-500 text-white shadow-purple-400/40 hover:scale-105 border-2 border-purple-200/60"
                   : "bg-linear-to-tr from-red-600 via-red-500 to-zinc-950 text-white border-2 border-white shadow-red-950 hover:scale-105"
               }`}
             >

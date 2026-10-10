@@ -6,15 +6,15 @@ import { useTheme } from "@/context/ThemeContext";
 import { BTS_MEMBERS } from "@/data/btsMembers";
 import { MemberAvatar } from "@/components/MemberAvatar";
 
-// Member specific accent colors for pastel cards
+// Member specific accent colors for pastel cards (Warm, rich pastels with matching colored borders)
 const PASTEL_ACCENTS = [
-  { bg: "from-purple-100 to-purple-50", border: "border-purple-300", tag: "bg-purple-200 text-purple-900" }, // 1: Yoongi
-  { bg: "from-pink-100 to-pink-50", border: "border-pink-300", tag: "bg-pink-200 text-pink-900" },          // 2: Tae
-  { bg: "from-amber-100 to-yellow-50", border: "border-amber-300", tag: "bg-amber-200 text-amber-900" },     // 3: Jimin
-  { bg: "from-sky-100 to-cyan-50", border: "border-sky-300", tag: "bg-sky-200 text-sky-900" },              // 4: Namjoon
-  { bg: "from-orange-100 to-rose-50", border: "border-orange-300", tag: "bg-orange-200 text-orange-900" },    // 5: Jin
-  { bg: "from-emerald-100 to-teal-50", border: "border-emerald-300", tag: "bg-emerald-200 text-emerald-900" },// 6: Hobi
-  { bg: "from-violet-100 to-fuchsia-50", border: "border-violet-300", tag: "bg-violet-200 text-violet-900" }, // 7: Jungkook
+  { bg: "bg-purple-100/90", border: "border-purple-300", tag: "bg-purple-200 text-purple-900", divider: "border-purple-200" },   // 1: Yoongi
+  { bg: "bg-pink-100/90", border: "border-pink-300", tag: "bg-pink-200 text-pink-900", divider: "border-pink-200" },             // 2: Tae
+  { bg: "bg-amber-100/90", border: "border-amber-300", tag: "bg-amber-200 text-amber-900", divider: "border-amber-200" },        // 3: Jimin
+  { bg: "bg-sky-100/90", border: "border-sky-300", tag: "bg-sky-200 text-sky-900", divider: "border-sky-200" },                 // 4: Namjoon
+  { bg: "bg-orange-100/90", border: "border-orange-300", tag: "bg-orange-200 text-orange-900", divider: "border-orange-200" },   // 5: Jin
+  { bg: "bg-emerald-100/90", border: "border-emerald-300", tag: "bg-emerald-200 text-emerald-900", divider: "border-emerald-200" },// 6: Hobi
+  { bg: "bg-violet-100/90", border: "border-violet-300", tag: "bg-violet-200 text-violet-900", divider: "border-violet-200" },   // 7: Jungkook
 ];
 
 export function GiftProgressTrack() {
@@ -67,7 +67,7 @@ export function GiftProgressTrack() {
                 onClick={() => openMemberModal(member)}
                 className={`group relative rounded-3xl p-5 border-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                   isPastel
-                    ? `bg-linear-to-br ${accent.bg} ${accent.border} shadow-md`
+                    ? `${accent.bg} ${accent.border} shadow-md`
                     : "bg-zinc-900 border-red-700/80 shadow-md hover:border-red-500"
                 }`}
               >
@@ -123,7 +123,7 @@ export function GiftProgressTrack() {
                 <div
                   className={`pt-2.5 border-t text-xs font-bold flex items-center justify-between transition-colors ${
                     isPastel
-                      ? "border-purple-200/60 text-purple-700 group-hover:text-purple-950"
+                      ? `${accent.divider} text-purple-700 group-hover:text-purple-950`
                       : "border-zinc-800 text-red-400 group-hover:text-red-300"
                   }`}
                 >
@@ -140,14 +140,14 @@ export function GiftProgressTrack() {
               key={member.id}
               className={`relative rounded-3xl p-5 border-2 border-dashed flex flex-col items-center justify-center text-center transition-all duration-200 ${
                 isPastel
-                  ? "bg-white/60 border-purple-200/80 text-purple-900"
-                  : "bg-zinc-950/70 border-zinc-800 text-zinc-400"
+                  ? "bg-purple-50/70 border-purple-300/80 text-purple-950 shadow-xs"
+                  : "bg-zinc-950/70 border-zinc-800 text-zinc-400 shadow-xs"
               }`}
             >
               <div
-                className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-2.5 shadow-sm border ${
+                className={`w-12 h-12 rounded-2xl flex items-center justify-center text-2xl mb-2.5 shadow-xs border ${
                   isPastel
-                    ? "bg-purple-100/70 border-purple-200 text-purple-600"
+                    ? "bg-purple-200/60 border-purple-300 text-purple-700"
                     : "bg-zinc-900 border-zinc-800 text-red-400"
                 }`}
               >
@@ -177,7 +177,7 @@ export function GiftProgressTrack() {
               <span
                 className={`text-xs font-bold px-3 py-1 rounded-full mt-3.5 border ${
                   isPastel
-                    ? "bg-purple-100/60 border-purple-200 text-purple-700"
+                    ? "bg-purple-200/70 border-purple-300 text-purple-800"
                     : "bg-zinc-900 border-zinc-800 text-zinc-400"
                 }`}
               >

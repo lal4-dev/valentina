@@ -46,9 +46,9 @@ export function MemberAvatar({ member, size = "md", className = "" }: MemberAvat
   // Celebratory Birthday Photocard Seal
   return (
     <div
-      className={`relative rounded-2xl border-2 flex flex-col items-center justify-center text-center p-2 transition-all shadow-sm ${sizeClasses} ${className} ${
+      className={`relative rounded-2xl border-2 flex flex-col items-center justify-center text-center p-2 transition-all shadow-xs ${sizeClasses} ${className} ${
         isPastel
-          ? "border-purple-300 bg-linear-to-br from-purple-100 via-pink-100 to-amber-100 text-purple-950"
+          ? "border-purple-300 bg-purple-100/90 text-purple-950"
           : "border-red-600 bg-linear-to-br from-zinc-900 via-zinc-950 to-red-950 text-white"
       }`}
     >
@@ -64,7 +64,7 @@ export function MemberAvatar({ member, size = "md", className = "" }: MemberAvat
       </span>
       <span
         className={`text-[9px] font-extrabold px-1.5 py-0.2 rounded-full mt-1 ${
-          isPastel ? "bg-white/80 text-purple-900" : "bg-red-600/80 text-white"
+          isPastel ? "bg-purple-200 text-purple-900 border border-purple-300" : "bg-red-600/80 text-white"
         }`}
       >
         #{member.number}

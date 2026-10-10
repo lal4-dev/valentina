@@ -19,7 +19,6 @@ export function LotteryControls() {
   const isPastel = theme === "pastel";
   const total = 7;
   const countDrawn = drawnNumbers.length;
-  const progressPercent = Math.round((countDrawn / total) * 100);
 
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-2">
@@ -31,7 +30,7 @@ export function LotteryControls() {
         }`}
       >
         {/* Header Progress Counter */}
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
             <span className="text-xl">🎁</span>
             <div>
@@ -57,29 +56,11 @@ export function LotteryControls() {
                 : "bg-red-950 text-red-200 border-red-800"
             }`}
           >
-            {progressPercent}%
+            {countDrawn} / {total}
           </span>
         </div>
 
-        {/* Progress Bar */}
-        <div
-          className={`w-full h-3 rounded-full overflow-hidden mb-4 border ${
-            isPastel
-              ? "bg-purple-100/70 border-purple-200"
-              : "bg-zinc-800 border-zinc-700"
-          }`}
-        >
-          <div
-            className={`h-full transition-all duration-700 rounded-full ${
-              isPastel
-                ? "bg-linear-to-r from-purple-500 via-pink-400 to-amber-300"
-                : "bg-linear-to-r from-red-600 via-red-500 to-white"
-            }`}
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-
-        {/* Numbers Status Badges */}
+        {/* Numbers Status Badges - Clean and aligned */}
         <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-4">
           {[1, 2, 3, 4, 5, 6, 7].map((num) => {
             const isDrawn = drawnNumbers.includes(num);
@@ -92,8 +73,8 @@ export function LotteryControls() {
                       ? "bg-purple-100/80 border-purple-300 text-purple-900 line-through opacity-70"
                       : "bg-zinc-800 border-zinc-700 text-zinc-500 line-through opacity-60"
                     : isPastel
-                    ? "bg-white border-purple-200 text-purple-950 shadow-sm"
-                    : "bg-zinc-900 border-red-900/60 text-red-200 shadow-sm"
+                    ? "bg-purple-50/80 border-purple-200 text-purple-950 shadow-xs"
+                    : "bg-zinc-900 border-red-900/60 text-red-200 shadow-xs"
                 }`}
               >
                 <span>#{num}</span>
@@ -113,7 +94,7 @@ export function LotteryControls() {
             disabled={isSpinning || isCompleted}
             className={`flex-1 py-3.5 px-5 rounded-2xl font-bold text-sm shadow-md transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none hover:scale-[1.02] active:scale-[0.98] ${
               isPastel
-                ? "bg-linear-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
+                ? "bg-linear-to-r from-purple-600 via-violet-600 to-purple-700 text-white shadow-purple-300/40 hover:from-purple-500 hover:to-purple-600"
                 : "bg-linear-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
             }`}
           >
@@ -132,7 +113,7 @@ export function LotteryControls() {
             disabled={isSpinning || countDrawn === 0}
             className={`px-3.5 py-3 rounded-2xl text-xs font-bold border transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${
               isPastel
-                ? "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
+                ? "bg-purple-100/70 text-purple-800 border-purple-200 hover:bg-purple-200"
                 : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
             }`}
             title="Reiniciar sorteo"
