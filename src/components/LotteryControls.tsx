@@ -23,7 +23,7 @@ export function LotteryControls() {
   return (
     <div className="w-full max-w-xl mx-auto px-4 py-2">
       <div
-        className={`p-5 sm:p-6 rounded-3xl border shadow-lg transition-all duration-300 ${
+        className={`p-4 sm:p-6 rounded-3xl border shadow-lg transition-all duration-300 ${
           isPastel
             ? "bg-white/90 border-purple-200/80 shadow-purple-100/50 text-purple-950"
             : "bg-zinc-950/90 border-zinc-800 shadow-zinc-950 text-white"

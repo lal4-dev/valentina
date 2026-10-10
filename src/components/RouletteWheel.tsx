@@ -70,7 +70,7 @@ export function RouletteWheel() {
       </div>
 
       {/* Wheel Bezel Container */}
-      <div className="relative w-85 h-85 sm:w-102.5 sm:h-102.5 flex items-center justify-center">
+      <div className="relative w-85 h-85 sm:w-102.5 sm:h-102.5 max-w-[90vw] max-h-[90vw] flex items-center justify-center">
         {/* Glow Halo */}
         <div
           className={`absolute inset-0 rounded-full blur-2xl opacity-60 transition-all duration-500 ${

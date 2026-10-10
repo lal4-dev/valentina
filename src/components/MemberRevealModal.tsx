@@ -56,7 +56,7 @@ export function MemberRevealModal() {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md animate-pop">
       <div
-        className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-300 max-h-[92vh] overflow-y-auto ${
+        className={`relative w-full max-w-lg rounded-3xl p-5 sm:p-6 md:p-7 border-2 shadow-2xl transition-all duration-300 max-h-[92vh] overflow-y-auto ${
           isPastel
             ? "bg-linear-to-b from-white via-purple-50/70 to-pink-50/50 border-purple-200 shadow-purple-300/50 text-purple-950"
             : "bg-zinc-950 border-red-800 shadow-red-950 text-white"
@@ -66,7 +66,7 @@ export function MemberRevealModal() {
         <button
           onClick={closeMemberModal}
           type="button"
-          className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200 hover:scale-110 active:scale-90 ${
+          className={`absolute top-3.5 right-3.5 sm:top-4 sm:right-4 w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-sm font-bold border transition-all duration-200 hover:scale-110 active:scale-90 ${
             isPastel
               ? "bg-purple-100/80 text-purple-700 border-purple-200 hover:bg-purple-200"
               : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
@@ -77,9 +77,9 @@ export function MemberRevealModal() {
         </button>
 
         {/* Top Header */}
-        <div className="flex flex-col items-center text-center mb-5">
+        <div className="flex flex-col items-center text-center mb-3 sm:mb-4">
           <div
-            className={`inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-2.5 shadow-sm border ${
+            className={`inline-flex items-center gap-1.5 px-3.5 py-0.5 rounded-full text-[11px] sm:text-xs font-extrabold uppercase tracking-wider mb-2 shadow-xs border ${
               isPastel
                 ? "bg-purple-100 text-purple-700 border-purple-200"
                 : "bg-red-950 text-red-200 border-red-800"
@@ -90,13 +90,13 @@ export function MemberRevealModal() {
           </div>
 
           <h2
-            className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+            className={`text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight ${
               isPastel ? "text-purple-950" : "text-white"
             }`}
           >
             {activeMember.name}{" "}
             <span
-              className={`text-lg font-bold ${
+              className={`text-base sm:text-lg font-bold ${
                 isPastel ? "text-pink-600" : "text-red-400"
               }`}
             >
@@ -105,7 +105,7 @@ export function MemberRevealModal() {
           </h2>
 
           <p
-            className={`text-xs mt-0.5 font-semibold ${
+            className={`text-[11px] sm:text-xs mt-0.5 font-semibold ${
               isPastel ? "text-purple-600" : "text-zinc-400"
             }`}
           >
@@ -114,14 +114,14 @@ export function MemberRevealModal() {
         </div>
 
         {/* Center: Member Photo / Avatar */}
-        <div className="flex justify-center mb-5">
+        <div className="flex justify-center mb-3.5 sm:mb-4">
           <div className="relative group">
             <div
               className={`absolute -inset-2 rounded-3xl blur-lg opacity-50 transition duration-300 ${
                 isPastel ? "bg-purple-300" : "bg-red-600"
               }`}
             />
-            <MemberAvatar member={activeMember} size="xl" className="relative z-10 shadow-lg" />
+            <MemberAvatar member={activeMember} size="lg" className="relative z-10 shadow-md" />
           </div>
         </div>
 
