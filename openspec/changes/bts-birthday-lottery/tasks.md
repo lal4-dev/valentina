@@ -2,26 +2,31 @@
 
 ## 1. Modelo de Datos y Configuración
 
-- [ ] 1.1 Definir interfaces de TypeScript y el array `btsMembers.ts` con los 7 integrantes (RM, Jin, SUGA, j-hope, Jimin, V, Jung Kook), números del 1 al 7, frases y paleta pastel, verificando que compile limpiamente.
-- [ ] 1.2 Configurar perfiles y credenciales predefinidas en `authConfig.ts` para Valentina (con fecha de nacimiento por defecto) y perfil de Administrador.
+- [ ] 1.1 Definir interfaces de TypeScript y el array `btsMembers.ts` con los 7 integrantes en el orden exacto (1: Yoongi, 2: Tae, 3: Jimin, 4: Namjoon, 5: Jin, 6: Hobi, 7: Jungkook), frases, pistas de regalo y soporte de imágenes en `/members/*.png`.
+- [ ] 1.2 Configurar credenciales predefinidas en `authConfig.ts` con contraseña `14102026` para Valentina y contraseña maestra para Admin.
 
-## 2. Autenticación y Selección de Perfil
+## 2. Soporte Dual de Temas (Pastel vs Arirang Concierto)
 
-- [ ] 2.1 Crear el componente de login `AuthCard` con selector visual de perfil (Valentina / Admin), campo de contraseña y estética pastel con microinteracciones.
-- [ ] 2.2 Implementar el estado de autenticación con control de sesión en cliente para proteger la visualización del sorteo.
+- [ ] 2.1 Implementar `ThemeContext` con soporte para temas `'pastel'` y `'arirang'`, persistencia en `localStorage` y clases de estilo asociadas.
+- [ ] 2.2 Crear el botón flotante `ThemeToggleFAB` accesible en todo momento para alternar rápidamente entre ambos modos.
 
-## 3. Mecánica del Sorteo (Ruleta Interactiva)
+## 3. Autenticación y Selección de Perfil
 
-- [ ] 3.1 Implementar `LotteryContext` para controlar los números pendientes (1 al 7), números ya obtenidos y sincronización segura con `localStorage`.
-- [ ] 3.2 Desarrollar el componente de Ruleta SVG animada con sectores en tonalidades pasteles, puntero superior y animación de rotación que aterriza en un número pendiente válido.
-- [ ] 3.3 Diseñar el panel de control del sorteo con botón de giro, contador de regalos restantes (ej. "3 de 7 entregados") y botón de reinicio para volver a comenzar.
+- [ ] 3.1 Crear el componente `AuthCard` con selector de perfil (Valentina / Admin), campo de contraseña con la aclaración explícita "Solo números sin espacios (ej: DDMMAAAA)" y validación reactiva.
+- [ ] 3.2 Implementar el estado de autenticación (`AuthContext`) protegiendo el acceso al sorteo.
 
-## 4. Revelación Temática BTS y Galería de Regalos
+## 4. Mecánica del Sorteo (Ruleta Interactiva)
 
-- [ ] 4.1 Crear el modal de revelación `MemberRevealModal` con celebración visual, retrato/avatar del integrante, frase célebre, dedicatoria de cumpleaños y pista del regalo.
-- [ ] 4.2 Implementar la galería/resumen `GiftProgressTrack` con las 7 tarjetas de los integrantes para inspeccionar los regalos ya descubiertos en cualquier momento.
+- [ ] 4.1 Implementar `LotteryContext` para controlar los números pendientes (1 al 7), historial de extraídos y sincronización con `localStorage`.
+- [ ] 4.2 Desarrollar el componente de Ruleta SVG animada con sectores temáticos, puntero de extracción y física de rotación fluida con `cubic-bezier`.
+- [ ] 4.3 Diseñar el panel de control del sorteo con botón de giro, contador de regalos descubiertos (ej: "3 de 7") y opción de reinicio.
 
-## 5. Integración Global, Estética y Verificación
+## 5. Modal de Revelación Temática y Galería de Regalos
 
-- [ ] 5.1 Integrar la experiencia completa en `src/app/page.tsx` con fondo pastel Borahae, fuentes redondeadas, efectos glassmorphism y diseño optimizado para celular y computadora.
-- [ ] 5.2 Validar el flujo de principio a fin ejecutando `npm run build` y probando el ciclo de login, 7 giros sucesivos sin repetición, visualización de fichas y reinicio.
+- [ ] 5.1 Crear el modal `MemberRevealModal` con confeti/destellos, retrato o avatar fallback del integrante, frase célebre, dedicatoria afectuosa y pista del regalo, adaptando su diseño al tema activo (Pastel o Arirang).
+- [ ] 5.2 Implementar la galería `GiftProgressTrack` con las 7 tarjetas de los integrantes para volver a inspeccionar los regalos ya descubiertos.
+
+## 6. Integración Global y Verificación
+
+- [ ] 6.1 Integrar toda la experiencia en `src/app/page.tsx` garantizando total coherencia estética, diseño responsive móvil/desktop y transiciones suaves.
+- [ ] 6.2 Probar con `npm run build` y validar el flujo completo: autenticación con `14102026`, cambio de tema en vivo con el botón flotante, 7 giros de ruleta sin repeticiones y reinicio.
