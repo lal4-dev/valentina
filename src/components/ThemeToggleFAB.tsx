@@ -5,31 +5,35 @@ import { useTheme } from "@/context/ThemeContext";
 
 export function ThemeToggleFAB() {
   const { theme, toggleTheme } = useTheme();
+  const isPastel = theme === "pastel";
 
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed top-5 right-5 z-50">
       <button
         onClick={toggleTheme}
-        className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-full font-medium text-xs md:text-sm shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 active:scale-95 border ${
-          theme === "pastel"
-            ? "bg-white/85 text-purple-900 border-purple-200/80 shadow-purple-200/50 hover:bg-purple-50"
-            : "bg-zinc-900/90 text-red-100 border-red-800/80 shadow-red-950/60 hover:bg-zinc-800"
+        type="button"
+        className={`group flex items-center gap-3 px-3.5 py-2 rounded-full text-xs tracking-normal transition-all duration-300 border backdrop-blur-md ${
+          isPastel
+            ? "bg-white/80 border-[#E4E0D7] text-[#2C2738] shadow-sm hover:border-[#C5BFB0] hover:bg-white"
+            : "bg-[#141418]/90 border-[#2A2A34] text-[#E4E4E8] shadow-sm hover:border-[#3E3E4C] hover:bg-[#1A1A20]"
         }`}
-        title="Cambiar temática visual"
+        aria-label="Cambiar tema visual"
       >
-        <span className="text-base transition-transform group-hover:rotate-12 duration-300">
-          {theme === "pastel" ? "🌸" : "🔥"}
-        </span>
+        <span
+          className={`inline-block w-2 h-2 rounded-full transition-colors duration-300 ${
+            isPastel ? "bg-[#9A80B4]" : "bg-[#C52233]"
+          }`}
+        />
         <div className="flex flex-col text-left">
-          <span className="leading-none font-bold">
-            {theme === "pastel" ? "Modo Pastel" : "Arirang Concierto"}
+          <span className="font-medium text-[11px] leading-tight">
+            {isPastel ? "Pastel Atelier" : "Arirang Tour"}
           </span>
           <span
-            className={`text-[10px] leading-tight opacity-75 ${
-              theme === "pastel" ? "text-purple-600" : "text-red-400"
+            className={`text-[9px] transition-colors leading-none ${
+              isPastel ? "text-[#7B7586]" : "text-[#8E8D99]"
             }`}
           >
-            {theme === "pastel" ? "Cambiar a Arirang (Rojo/Negro)" : "Cambiar a Pastel (Rosa/Amarillo)"}
+            {isPastel ? "Modo Concierto" : "Modo Pastel"}
           </span>
         </div>
       </button>

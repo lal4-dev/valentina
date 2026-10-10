@@ -1,68 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #fdfbf7;
-  --foreground: #2e1065;
-}
+@layer base {
+  :root {
+    --bg-canvas: #f8f7f4;
+    --bg-surface: #ffffff;
+    --border-subtle: #e6e3dc;
+    --text-primary: #1e1b24;
+    --text-secondary: #6e6a78;
+    --accent-purple: #8b6fa8;
+    --accent-rose: #c47c8a;
+    --accent-gold: #c29d59;
+  }
 
-[data-theme="arirang"] {
-  --background: #09090b;
-  --foreground: #fafafa;
+  [data-theme="arirang"] {
+    --bg-canvas: #0c0c0f;
+    --bg-surface: #141418;
+    --border-subtle: #24242c;
+    --text-primary: #f5f5f7;
+    --text-secondary: #8e8d99;
+    --accent-purple: #c52233;
+    --accent-rose: #e63946;
+    --accent-gold: #f4a261;
+  }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  overflow-x: hidden;
-  min-height: 100vh;
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Background Gradients */
+/* Theme backgrounds without plastic gradient soup */
 .theme-pastel {
-  background: radial-gradient(circle at 10% 20%, rgba(251, 207, 232, 0.45) 0%, transparent 40%),
-              radial-gradient(circle at 90% 10%, rgba(221, 214, 254, 0.5) 0%, transparent 40%),
-              radial-gradient(circle at 50% 80%, rgba(254, 240, 138, 0.35) 0%, transparent 50%),
-              radial-gradient(circle at 20% 90%, rgba(187, 247, 208, 0.35) 0%, transparent 40%),
-              #fdfbf7;
-  color: #2e1065;
+  background-color: #f8f7f4;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(228, 222, 237, 0.45) 0px, transparent 55%),
+    radial-gradient(at 85% 85%, rgba(243, 226, 230, 0.45) 0px, transparent 55%);
+  color: #1e1b24;
   min-height: 100vh;
-  transition: background 0.5s ease, color 0.5s ease;
 }
 
 .theme-arirang {
-  background: radial-gradient(circle at 15% 15%, rgba(185, 28, 28, 0.3) 0%, transparent 40%),
-              radial-gradient(circle at 85% 20%, rgba(220, 38, 38, 0.25) 0%, transparent 40%),
-              radial-gradient(circle at 50% 90%, rgba(153, 27, 27, 0.2) 0%, transparent 50%),
-              #09090b;
-  color: #f4f4f5;
+  background-color: #0c0c0f;
+  background-image: 
+    radial-gradient(at 20% 20%, rgba(197, 34, 51, 0.18) 0px, transparent 50%),
+    radial-gradient(at 80% 80%, rgba(30, 15, 20, 0.4) 0px, transparent 60%);
+  color: #f5f5f7;
   min-height: 100vh;
-  transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* Keyframes */
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+/* Editorial card & paper shadows */
+.shadow-paper {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.03);
 }
 
-.animate-shake {
-  animation: shake 0.4s ease-in-out;
+.shadow-vinyl {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
+/* Clean micro-animations */
+@keyframes delicateFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.25s ease-out forwards;
+.animate-reveal {
+  animation: delicateFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Custom scrollbars */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -70,11 +87,11 @@ body {
 }
 
 .theme-pastel ::-webkit-scrollbar-thumb {
-  background: #d8b4e2;
-  border-radius: 9999px;
+  background: #d8d4cb;
+  border-radius: 999px;
 }
 
 .theme-arirang ::-webkit-scrollbar-thumb {
-  background: #7f1d1d;
-  border-radius: 9999px;
+  background: #2a2a34;
+  border-radius: 999px;
 }

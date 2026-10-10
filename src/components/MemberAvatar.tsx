@@ -12,58 +12,54 @@ interface MemberAvatarProps {
 }
 
 export function MemberAvatar({ member, size = "md", className = "" }: MemberAvatarProps) {
-  const [imageError, setImageError] = useState(false);
+  const [hasError, setHasError] = useState(false);
   const { theme } = useTheme();
   const isPastel = theme === "pastel";
 
   const sizeClasses = {
-    sm: "w-12 h-12 text-sm",
-    md: "w-20 h-20 text-xl",
-    lg: "w-32 h-32 text-3xl",
-    xl: "w-44 h-44 text-5xl",
+    sm: "w-12 h-12 text-xs",
+    md: "w-20 h-20 text-sm",
+    lg: "w-32 h-32 text-xl",
+    xl: "w-40 h-40 text-2xl",
   }[size];
 
-  const currentPalette = isPastel ? member.palette.pastel : member.palette.arirang;
-
-  if (!imageError) {
+  if (!hasError) {
     return (
       <div
-        className={`relative rounded-2xl overflow-hidden border-2 shadow-md flex items-center justify-center transition-transform duration-300 hover:scale-105 ${sizeClasses} ${className}`}
-        style={{
-          borderColor: currentPalette.primary,
-          backgroundColor: isPastel ? currentPalette.secondary : "#18181B",
-        }}
+        className={`relative rounded-2xl overflow-hidden border flex items-center justify-center transition-all ${sizeClasses} ${className} ${
+          isPastel ? "border-[#DDD7CD] bg-[#F4F1EA]" : "border-[#262630] bg-[#141418]"
+        }`}
       >
         <Image
           src={member.imagePath}
           alt={member.name}
           fill
-          sizes="(max-width: 768px) 150px, 200px"
+          unoptimized
+          sizes="(max-width: 768px) 160px, 200px"
           className="object-cover object-top"
-          onError={() => setImageError(true)}
+          onError={() => setHasError(true)}
           priority
         />
       </div>
     );
   }
 
-  // Illustrated Avatar Fallback
+  // Refined Minimalist Monogram / Photocard Seal
   return (
     <div
-      className={`relative rounded-2xl border-2 shadow-md flex flex-col items-center justify-center font-black transition-transform duration-300 hover:scale-105 ${sizeClasses} ${className}`}
-      style={{
-        borderColor: currentPalette.primary,
-        backgroundColor: isPastel ? currentPalette.secondary : "#18181B",
-        color: currentPalette.primary,
-      }}
+      className={`relative rounded-2xl border flex flex-col items-center justify-center font-serif text-center transition-all ${sizeClasses} ${className} ${
+        isPastel
+          ? "border-[#DCD6CA] bg-[#F7F5EF] text-[#2C2738]"
+          : "border-[#2A2A36] bg-[#14141A] text-[#E4E4E8]"
+      }`}
     >
-      <span className="leading-none">{member.name.charAt(0)}</span>
-      <span className="text-[10px] tracking-widest font-normal opacity-80 mt-1">
+      <span className="font-serif italic font-normal">{member.name}</span>
+      <span className="text-[10px] font-sans opacity-60 tracking-widest mt-0.5">
         {member.koreanName}
       </span>
-      <div className="absolute top-1 right-1 text-[9px] px-1 py-0.2 rounded-full font-bold bg-white/70 text-zinc-800">
-        #{member.number}
-      </div>
+      <span className="text-[9px] font-mono opacity-50 mt-1">
+        0{member.number}
+      </span>
     </div>
   );
 }

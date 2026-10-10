@@ -12,137 +12,106 @@ export function MemberRevealModal() {
 
   if (!activeMember) return null;
 
-  const palette = isPastel ? activeMember.palette.pastel : activeMember.palette.arirang;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md transition-all duration-300 animate-fadeIn">
-      {/* Floating Sparkles & Confetti Background Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        <span className="absolute -top-10 left-10 text-4xl animate-bounce duration-700">
-          ✨
-        </span>
-        <span className="absolute top-20 right-12 text-3xl animate-pulse duration-1000">
-          💜
-        </span>
-        <span className="absolute bottom-16 left-14 text-4xl animate-spin duration-3000">
-          🎉
-        </span>
-        <span className="absolute -bottom-8 right-16 text-3xl animate-bounce duration-500">
-          ⭐
-        </span>
-      </div>
-
-      {/* Main Card Container */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-reveal">
       <div
-        className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-500 transform scale-100 opacity-100 ${
+        className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border transition-all duration-300 max-h-[90vh] overflow-y-auto ${
           isPastel
-            ? "bg-gradient-to-b from-white via-purple-50/70 to-pink-50/50 border-purple-200 shadow-purple-300/50 text-purple-950"
-            : "bg-gradient-to-b from-zinc-950 via-zinc-900 to-black border-red-800 shadow-red-950 text-white"
+            ? "bg-[#FAF9F6] border-[#E2DDD3] shadow-paper text-[#1E1B24]"
+            : "bg-[#141418] border-[#252530] shadow-vinyl text-[#F5F5F7]"
         }`}
       >
-        {/* Close Button */}
+        {/* Dismiss Button */}
         <button
           onClick={closeMemberModal}
-          className={`absolute top-4 right-4 w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm border transition-all duration-200 hover:scale-110 active:scale-90 ${
-            isPastel
-              ? "bg-purple-100/80 text-purple-700 border-purple-200 hover:bg-purple-200"
-              : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
-          }`}
-          title="Cerrar"
+          type="button"
+          className="absolute top-5 right-5 w-8 h-8 rounded-full flex items-center justify-center text-xs font-mono border border-inherit opacity-60 hover:opacity-100 transition-opacity"
+          aria-label="Cerrar modal"
         >
           ✕
         </button>
 
-        {/* Gift Number & Header */}
-        <div className="flex flex-col items-center text-center mb-5">
-          <div
-            className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-black tracking-wider uppercase mb-3 shadow-sm border ${palette.badge}`}
-          >
-            <span>🎁</span>
-            <span>REGALO #{activeMember.number} DESBLOQUEADO</span>
-          </div>
-
-          <h2
-            className="text-2xl sm:text-3xl font-black tracking-tight"
-            style={{ color: isPastel ? palette.accent : palette.accent }}
-          >
-            {activeMember.name}{" "}
-            <span className="text-lg font-bold opacity-80">({activeMember.stageName})</span>
+        {/* Top Eyebrow */}
+        <div className="text-center mb-6">
+          <span className="text-[10px] font-mono tracking-widest uppercase opacity-65">
+            Entrega #{activeMember.number} de 07
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-serif font-normal tracking-tight mt-1">
+            {activeMember.name}
           </h2>
-          <p
-            className={`text-xs mt-0.5 font-medium ${
-              isPastel ? "text-purple-600" : "text-zinc-400"
-            }`}
-          >
-            {activeMember.realName} • {activeMember.koreanName} • {activeMember.role}
+          <p className="text-xs font-mono tracking-wider opacity-60 mt-0.5">
+            {activeMember.koreanName} • {activeMember.stageName}
           </p>
         </div>
 
-        {/* Center: Member Avatar Photo */}
-        <div className="flex justify-center mb-5">
-          <div className="relative group">
-            <div
-              className="absolute -inset-2 rounded-3xl blur-lg opacity-60 transition duration-500 group-hover:opacity-100"
-              style={{ backgroundColor: palette.primary }}
-            />
-            <MemberAvatar member={activeMember} size="xl" className="relative z-10" />
+        {/* Photocard Framing */}
+        <div className="flex justify-center mb-6">
+          <div
+            className={`p-2 rounded-3xl border transition-transform duration-300 ${
+              isPastel
+                ? "bg-white border-[#E6E1D8] shadow-sm"
+                : "bg-[#0E0E12] border-[#22222C] shadow-sm"
+            }`}
+          >
+            <MemberAvatar member={activeMember} size="lg" />
           </div>
         </div>
 
-        {/* Quote Section */}
+        {/* Iconic Member Note */}
         <div
-          className={`p-3.5 rounded-2xl mb-4 border italic text-xs sm:text-sm text-center leading-relaxed ${
+          className={`px-4 py-3 rounded-2xl mb-5 text-center text-xs font-serif italic border ${
             isPastel
-              ? "bg-purple-100/40 border-purple-200/80 text-purple-900"
-              : "bg-zinc-900/90 border-red-900/40 text-zinc-200"
+              ? "bg-white/80 border-[#E8E4DA] text-[#423C4E]"
+              : "bg-[#0E0E12]/80 border-[#22222A] text-[#C4C4CE]"
           }`}
         >
           &ldquo;{activeMember.quote}&rdquo;
         </div>
 
-        {/* Birthday Wish Section */}
+        {/* Romantic Letter from Partner to Valentina */}
         <div
-          className={`p-4 rounded-2xl mb-4 border text-xs sm:text-sm leading-relaxed ${
+          className={`p-4 sm:p-5 rounded-2xl mb-5 border ${
             isPastel
-              ? "bg-white/90 border-purple-200 shadow-sm text-purple-950"
-              : "bg-zinc-900 border-zinc-800 text-zinc-100"
+              ? "bg-white border-[#E6E1D8] text-[#1E1B24]"
+              : "bg-[#0F0F14] border-[#242430] text-[#F0F0F5]"
           }`}
         >
-          <div className="flex items-center gap-2 font-bold mb-1.5 text-xs text-pink-600 dark:text-red-400 uppercase tracking-wider">
-            <span>💌</span>
-            <span>Mi mensaje para vos</span>
-          </div>
-          <p className="font-medium">{activeMember.birthdayWish}</p>
+          <span className="block text-[10px] font-mono tracking-widest uppercase opacity-60 mb-2">
+            De mí para vos
+          </span>
+          <p className="text-xs sm:text-sm leading-relaxed font-normal">
+            {activeMember.birthdayWish}
+          </p>
         </div>
 
-        {/* Gift Hint */}
+        {/* Sealed Gift Hint */}
         <div
-          className={`flex items-center gap-2.5 p-3 rounded-xl border text-xs ${
+          className={`p-3.5 rounded-2xl border text-xs leading-relaxed mb-6 ${
             isPastel
-              ? "bg-amber-50/70 border-amber-200/80 text-amber-900"
-              : "bg-red-950/40 border-red-900/60 text-red-200"
+              ? "bg-[#F3EFE7]/80 border-[#DDD7CC] text-[#342F3E]"
+              : "bg-[#1E1215] border-[#44161D] text-[#E8CCD0]"
           }`}
         >
-          <span className="text-lg">🎀</span>
-          <div>
-            <span className="font-bold">Pista del regalo #{activeMember.number}:</span>{" "}
-            <span className="italic font-medium">&ldquo;{activeMember.giftHint}&rdquo;</span>
-          </div>
+          <span className="font-semibold block mb-0.5 text-[10px] uppercase font-mono tracking-wider opacity-75">
+            Pista del paquete físico:
+          </span>
+          <span className="font-medium italic">
+            &ldquo;{activeMember.giftHint}&rdquo;
+          </span>
         </div>
 
-        {/* Action Button */}
-        <div className="mt-5 flex gap-2">
-          <button
-            onClick={closeMemberModal}
-            className={`w-full py-3 px-4 rounded-xl font-extrabold text-sm shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] ${
-              isPastel
-                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white shadow-purple-200"
-                : "bg-gradient-to-r from-red-600 via-red-500 to-zinc-900 text-white shadow-red-950"
-            }`}
-          >
-            {isCompleted ? "¡Ver todos los regalos en la galería! 💜" : "¡Continuar el sorteo! 🎁"}
-          </button>
-        </div>
+        {/* Action */}
+        <button
+          type="button"
+          onClick={closeMemberModal}
+          className={`w-full py-3 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 ${
+            isPastel
+              ? "bg-[#252030] text-white hover:bg-[#342D44]"
+              : "bg-[#C52233] text-white hover:bg-[#D92537]"
+          }`}
+        >
+          {isCompleted ? "Revisar todos los regalos" : "Continuar con el sorteo"}
+        </button>
       </div>
     </div>
   );

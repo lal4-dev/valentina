@@ -16,167 +16,134 @@ export function LotteryControls() {
   const { theme } = useTheme();
 
   const [showResetConfirm, setShowResetConfirm] = useState(false);
-
   const isPastel = theme === "pastel";
   const total = 7;
-  const progressPercent = Math.round((drawnNumbers.length / total) * 100);
+  const countDrawn = drawnNumbers.length;
 
   return (
-    <div className="w-full max-w-xl mx-auto px-4 py-3">
-      {/* Progress & Counter Card */}
+    <div className="w-full max-w-xl mx-auto px-4 py-2">
       <div
-        className={`p-4 sm:p-5 rounded-2xl backdrop-blur-md border shadow-lg transition-all duration-300 ${
+        className={`p-5 sm:p-6 rounded-3xl border transition-all duration-300 ${
           isPastel
-            ? "bg-white/80 border-purple-200/80 shadow-purple-100"
-            : "bg-zinc-900/80 border-zinc-800 shadow-zinc-950"
+            ? "bg-white border-[#E6E1D8] shadow-paper text-[#1E1B24]"
+            : "bg-[#141418] border-[#24242C] shadow-vinyl text-[#F5F5F7]"
         }`}
       >
-        <div className="flex items-center justify-between mb-2.5">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🎁</span>
-            <div>
-              <h3
-                className={`text-sm font-bold leading-tight ${
-                  isPastel ? "text-purple-950" : "text-white"
-                }`}
-              >
-                Progreso de Regalos
-              </h3>
-              <p
-                className={`text-xs ${
-                  isPastel ? "text-purple-600" : "text-zinc-400"
-                }`}
-              >
-                {isCompleted
-                  ? "¡Completaste todos los regalos!"
-                  : `${drawnNumbers.length} de 7 descubiertos (${remainingNumbers.length} pendientes)`}
-              </p>
-            </div>
+        {/* Header Progress Counter */}
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-xs font-mono tracking-widest uppercase opacity-75">
+              Estado de la Entrega
+            </h3>
+            <p className="text-base sm:text-lg font-serif font-normal mt-0.5">
+              {isCompleted
+                ? "Todos los regalos han sido develados"
+                : `${countDrawn} de ${total} descubiertos`}
+            </p>
           </div>
-
-          <div
-            className={`px-3 py-1 rounded-full text-xs font-extrabold border ${
-              isPastel
-                ? "bg-purple-100 text-purple-800 border-purple-200"
-                : "bg-red-950/80 text-red-200 border-red-800"
-            }`}
-          >
-            {progressPercent}%
-          </div>
+          <span className="text-xs font-mono font-medium opacity-60">
+            {remainingNumbers.length} restantes
+          </span>
         </div>
 
-        {/* Progress Bar */}
-        <div
-          className={`w-full h-3 rounded-full overflow-hidden mb-4 border ${
-            isPastel
-              ? "bg-purple-100/70 border-purple-200"
-              : "bg-zinc-800 border-zinc-700"
-          }`}
-        >
-          <div
-            className={`h-full transition-all duration-700 rounded-full ${
-              isPastel
-                ? "bg-gradient-to-r from-purple-500 via-pink-400 to-amber-400"
-                : "bg-gradient-to-r from-red-700 via-red-500 to-red-400"
-            }`}
-            style={{ width: `${progressPercent}%` }}
-          />
-        </div>
-
-        {/* Numbers Status Badges */}
-        <div className="flex items-center justify-between gap-1 sm:gap-2 mb-4">
+        {/* Minimal Stepper Bar */}
+        <div className="grid grid-cols-7 gap-1.5 sm:gap-2 mb-5">
           {[1, 2, 3, 4, 5, 6, 7].map((num) => {
             const isDrawn = drawnNumbers.includes(num);
             return (
               <div
                 key={num}
-                className={`flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl border text-xs font-bold transition-all duration-300 ${
+                className={`flex flex-col items-center justify-center py-2 rounded-xl text-center border transition-all duration-300 ${
                   isDrawn
                     ? isPastel
-                      ? "bg-purple-100/90 border-purple-300 text-purple-900 line-through opacity-70"
-                      : "bg-zinc-800 border-zinc-700 text-zinc-500 line-through opacity-60"
+                      ? "bg-[#F0ECE4] border-[#E0DCD2] text-[#8C8678]"
+                      : "bg-[#1D1D24] border-[#2A2A36] text-[#727280]"
                     : isPastel
-                    ? "bg-white border-purple-200 text-purple-900 shadow-sm"
-                    : "bg-zinc-950 border-red-900/60 text-red-300 shadow-sm"
+                    ? "bg-[#FAF9F6] border-[#E8E4DA] text-[#2C2738] font-semibold"
+                    : "bg-[#0E0E12] border-[#24242E] text-[#E4E4EC] font-semibold"
                 }`}
               >
-                <span>#{num}</span>
-                <span className="text-[10px]">
-                  {isDrawn ? "✓" : "✨"}
+                <span className="text-[10px] font-mono opacity-60">#{num}</span>
+                <span className="text-xs mt-0.5">
+                  {isDrawn ? "—" : "•"}
                 </span>
               </div>
             );
           })}
         </div>
 
-        {/* Action Buttons */}
+        {/* Controls */}
         <div className="flex items-center gap-3">
           <button
+            type="button"
             onClick={spin}
             disabled={isSpinning || isCompleted}
-            className={`flex-1 py-3 px-5 rounded-xl font-extrabold text-sm shadow-md transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${
+            className={`flex-1 py-3 px-5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none active:scale-[0.99] ${
               isPastel
-                ? "bg-gradient-to-r from-purple-600 to-pink-500 text-white shadow-purple-300/60"
-                : "bg-gradient-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
+                ? "bg-[#252030] text-white hover:bg-[#342D44]"
+                : "bg-[#C52233] text-white hover:bg-[#D92537]"
             }`}
           >
             {isSpinning
-              ? "Girando la ruleta..."
+              ? "Girando..."
               : isCompleted
-              ? "¡Todos los regalos sorteados! 🎉"
-              : drawnNumbers.length === 0
-              ? "Iniciar con el primer regalo 🎁"
+              ? "Colección completa"
+              : countDrawn === 0
+              ? "Iniciar con el primer regalo"
               : `Sortear siguiente regalo (${remainingNumbers.length} disponibles)`}
           </button>
 
-          {/* Reset button */}
           <button
+            type="button"
             onClick={() => setShowResetConfirm(true)}
-            disabled={isSpinning || drawnNumbers.length === 0}
-            className={`px-3.5 py-3 rounded-xl text-xs font-bold border transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-30 disabled:pointer-events-none ${
+            disabled={isSpinning || countDrawn === 0}
+            className={`px-4 py-3 rounded-xl text-xs font-mono uppercase tracking-wider border transition-all duration-200 disabled:opacity-30 disabled:pointer-events-none ${
               isPastel
-                ? "bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
-                : "bg-zinc-800 text-zinc-300 border-zinc-700 hover:bg-zinc-700"
+                ? "bg-[#F8F7F4] border-[#DDD7CD] text-[#555060] hover:bg-[#EFECE4]"
+                : "bg-[#0E0E12] border-[#282834] text-[#8E8D99] hover:bg-[#1A1A22]"
             }`}
-            title="Reiniciar sorteo"
+            title="Reiniciar el sorteo"
           >
-            🔄
+            Reiniciar
           </button>
         </div>
       </div>
 
-      {/* Reset Confirmation Dialog */}
+      {/* Confirmation Modal */}
       {showResetConfirm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-reveal">
           <div
-            className={`w-full max-w-sm rounded-2xl p-6 border shadow-2xl ${
+            className={`w-full max-w-sm rounded-3xl p-6 sm:p-7 border ${
               isPastel
-                ? "bg-white border-purple-200 text-purple-950"
-                : "bg-zinc-900 border-red-900 text-white"
+                ? "bg-white border-[#E6E1D8] text-[#1E1B24]"
+                : "bg-[#141418] border-[#262630] text-white"
             }`}
           >
-            <div className="text-3xl mb-2 text-center">⚠️</div>
-            <h4 className="text-base font-bold text-center mb-1">
-              ¿Reiniciar el sorteo?
+            <h4 className="text-base font-serif font-normal mb-2">
+              ¿Deseas reiniciar el sorteo?
             </h4>
-            <p className="text-xs text-center mb-5 opacity-80">
-              Esta acción volverá a habilitar los 7 números como pendientes para que puedan sortearse de nuevo.
+            <p className="text-xs opacity-75 mb-6 leading-relaxed">
+              Los siete números volverán a quedar disponibles en la ruleta para comenzar una nueva entrega.
             </p>
-            <div className="flex gap-2">
+            <div className="flex gap-2.5">
               <button
+                type="button"
                 onClick={() => setShowResetConfirm(false)}
-                className="flex-1 py-2 px-3 rounded-xl text-xs font-semibold border border-zinc-300 hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-800"
+                className="flex-1 py-2.5 rounded-xl text-xs font-medium border border-inherit opacity-80 hover:opacity-100"
               >
                 Cancelar
               </button>
               <button
+                type="button"
                 onClick={() => {
                   resetLottery();
                   setShowResetConfirm(false);
                 }}
-                className="flex-1 py-2 px-3 rounded-xl text-xs font-bold bg-red-600 text-white hover:bg-red-700"
+                className={`flex-1 py-2.5 rounded-xl text-xs font-semibold text-white ${
+                  isPastel ? "bg-[#252030]" : "bg-[#C52233]"
+                }`}
               >
-                Sí, reiniciar
+                Confirmar
               </button>
             </div>
           </div>
