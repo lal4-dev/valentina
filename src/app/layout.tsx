@@ -40,8 +40,8 @@ const fuentePlusJakarta = Plus_Jakarta_Sans({
 // ============================================================================
 
 export const metadata: Metadata = {
-  title: "¡Feliz Cumpleaños Valentina! • BTS Gifts",
-  description: "7 regalos especiales inspirados en los 7 integrantes de BTS para Valentina.",
+  title: "¡Feliz Cumpleaños BB!",
+  description: "Un regalito especial hecho con mucho amor para vos.",
   icons: {
     icon: "/icon.svg",
   },

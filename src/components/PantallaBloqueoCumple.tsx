@@ -198,8 +198,8 @@ export function PantallaBloqueoCumple({
               }`}
           >
             {estaDesbloqueado
-              ? "¡Llegó el momento tan esperado! Ya podés descubrir cada uno de tus 7 regalos de BTS."
-              : "Preparé una sorpresa enorme para vos. El acceso y los 7 regalos se desbloquearán automáticamente cuando el contador llegue a cero."}
+              ? "¡Llegó el momento tan esperado! Ya podés entrar al login pedime la contraseña."
+              : "Preparé una sorpresa enorme para vos. El acceso a todo lo que hice se desbloqueara automáticamente cuando el contador llegue a cero."}
           </p>
 
           {/* 4 Tarjetas del Reloj de Cuenta Regresiva */}

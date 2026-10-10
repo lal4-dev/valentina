@@ -127,7 +127,7 @@ export default function PaginaAdministrador() {
                   type="password"
                   value={clave}
                   onChange={(e) => setClave(e.target.value)}
-                  placeholder="admin290344"
+                  placeholder="••••••••"
                   className={`w-full px-4 py-3 rounded-2xl text-sm font-semibold transition-all outline-none border ${
                     esPastel
                       ? "bg-white border-purple-200 text-purple-950 placeholder-purple-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-100"

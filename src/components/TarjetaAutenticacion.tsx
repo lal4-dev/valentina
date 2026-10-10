@@ -147,11 +147,7 @@ export function TarjetaAutenticacion() {
                 type="password"
                 value={clave}
                 onChange={(e) => setClave(e.target.value)}
-                placeholder={
-                  perfilSeleccionado === "valentina"
-                    ? "Ej: 14102026"
-                    : "Clave de administrador"
-                }
+                placeholder="••••••••"
                 autoComplete="current-password"
                 className={`w-full px-4 py-3 rounded-2xl text-sm font-medium border transition-all duration-200 outline-none ${
                   mensajeError
