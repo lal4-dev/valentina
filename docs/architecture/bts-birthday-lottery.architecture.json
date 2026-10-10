@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "BTS Birthday Lottery Architecture",
+    "output": "docs/architecture/bts-birthday-lottery.html",
+    "quality_profile": "standard",
+    "views": [
+      {
+        "id": "full-flow",
+        "label": "Flujo Completo de la Experiencia",
+        "focus": ["user", "auth", "roulette", "lottery", "reveal", "gallery", "storage"],
+        "note": "Ruta interactiva desde el ingreso de Valentina hasta la entrega de los 7 regalos."
+      },
+      {
+        "id": "theme-and-auth",
+        "label": "Acceso y Selector de Tema",
+        "focus": ["user", "auth", "theme"],
+        "note": "Autenticación por fecha de nacimiento y alternancia de temas Pastel vs Arirang."
+      }
+    ]
+  },
+  "components": [
+    { "id": "user", "type": "external", "label": "Valentina", "sublabel": "Cumpleañera / Admin", "pos": [40, 260], "size": [120, 60] },
+    { "id": "auth", "type": "security", "label": "Auth Module", "sublabel": "Clave 14102026", "pos": [220, 260], "size": [120, 60], "tag": "Perfil Seguro" },
+    { "id": "theme", "type": "frontend", "label": "Theme FAB", "sublabel": "Pastel vs Arirang", "pos": [220, 110], "size": [120, 60], "tag": "Dual Mode" },
+    { "id": "roulette", "type": "frontend", "label": "Ruleta SVG", "sublabel": "Giro cubic-bezier", "pos": [420, 260], "size": [130, 60] },
+    { "id": "lottery", "type": "backend", "label": "Lottery Engine", "sublabel": "Descarte 1 a 7", "pos": [630, 260], "size": [130, 60] },
+    { "id": "reveal", "type": "frontend", "label": "Reveal Modal", "sublabel": "Ficha BTS + Dedicatoria", "pos": [840, 180], "size": [140, 60] },
+    { "id": "gallery", "type": "frontend", "label": "Galería 7 Regalos", "sublabel": "Tarjetas y progreso", "pos": [840, 340], "size": [140, 60] },
+    { "id": "storage", "type": "database", "label": "LocalStorage", "sublabel": "Persistencia de estado", "pos": [630, 430], "size": [130, 60], "tag": "Offline" }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Next.js 16 + Tailwind CSS v4 App Client",
+      "wraps": ["auth", "theme", "roulette", "lottery", "reveal", "gallery", "storage"]
+    }
+  ],
+  "connections": [
+    { "id": "c1", "from": "user", "to": "auth", "variant": "emphasis" },
+    { "id": "c2", "from": "user", "to": "theme", "variant": "dashed", "fromSide": "top", "toSide": "left" },
+    { "id": "c3", "from": "auth", "to": "roulette" },
+    { "id": "c4", "from": "roulette", "to": "lottery", "variant": "emphasis" },
+    { "id": "c5", "from": "lottery", "to": "reveal", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "c6", "from": "lottery", "to": "gallery", "fromSide": "right", "toSide": "left" },
+    { "id": "c7", "from": "lottery", "to": "storage", "fromSide": "bottom", "toSide": "top", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "rose",
+      "title": "Ingreso Personalizado",
+      "items": [
+        "Clave de Valentina: 14102026 (formato DDMMAAAA)",
+        "Perfil Admin para control y reinicio",
+        "Aclaración explícita para evitar errores"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Mecánica del Sorteo",
+      "items": [
+        "Ruleta animada con 7 sectores",
+        "Descuento automático de números sorteados",
+        "Mapeo 1 a 1 de Yoongi a Jungkook"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Estética Dual Borahae",
+      "items": [
+        "Modo Pastel: Rosa, amarillo, celeste y lavanda",
+        "Modo Arirang: Rojo intenso, negro y blanco",
+        "Soporte para fotos PNG en /public/members/"
+      ]
+    }
+  ]
+}
