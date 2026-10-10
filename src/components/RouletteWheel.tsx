@@ -70,7 +70,7 @@ export function RouletteWheel() {
       </div>
 
       {/* Wheel Bezel Container */}
-      <div className="relative w-[340px] h-[340px] sm:w-[410px] sm:h-[410px] flex items-center justify-center">
+      <div className="relative w-85 h-85 sm:w-102.5 sm:h-102.5 flex items-center justify-center">
         {/* Glow Halo */}
         <div
           className={`absolute inset-0 rounded-full blur-2xl opacity-60 transition-all duration-500 ${
@@ -195,8 +195,8 @@ export function RouletteWheel() {
               disabled={isSpinning || isCompleted}
               className={`pointer-events-auto w-24 h-24 rounded-full flex flex-col items-center justify-center font-bold text-xs shadow-xl transition-all duration-300 active:scale-95 disabled:pointer-events-none disabled:opacity-60 ${
                 isPastel
-                  ? "bg-gradient-to-tr from-purple-600 via-pink-500 to-amber-300 text-white shadow-purple-400/50 hover:scale-105"
-                  : "bg-gradient-to-tr from-red-600 via-red-500 to-zinc-950 text-white border-2 border-white shadow-red-950 hover:scale-105"
+                  ? "bg-linear-to-tr from-purple-600 via-pink-500 to-amber-300 text-white shadow-purple-400/50 hover:scale-105"
+                  : "bg-linear-to-tr from-red-600 via-red-500 to-zinc-950 text-white border-2 border-white shadow-red-950 hover:scale-105"
               }`}
             >
               {isSpinning ? (

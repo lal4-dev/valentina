@@ -17,7 +17,7 @@ export function MemberRevealModal() {
       <div
         className={`relative w-full max-w-lg rounded-3xl p-6 sm:p-8 border-2 shadow-2xl transition-all duration-300 max-h-[92vh] overflow-y-auto ${
           isPastel
-            ? "bg-gradient-to-b from-white via-purple-50/70 to-pink-50/50 border-purple-200 shadow-purple-300/50 text-purple-950"
+            ? "bg-linear-to-b from-white via-purple-50/70 to-pink-50/50 border-purple-200 shadow-purple-300/50 text-purple-950"
             : "bg-zinc-950 border-red-800 shadow-red-950 text-white"
         }`}
       >
@@ -137,8 +137,8 @@ export function MemberRevealModal() {
           onClick={closeMemberModal}
           className={`w-full py-3.5 px-4 rounded-xl font-bold text-sm shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] ${
             isPastel
-              ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
-              : "bg-gradient-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
+              ? "bg-linear-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
+              : "bg-linear-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
           }`}
         >
           {isCompleted ? "¡Ver todos los regalos en la galería! 💜" : "¡Continuar el sorteo! 🎁"}

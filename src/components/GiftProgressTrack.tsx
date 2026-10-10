@@ -67,7 +67,7 @@ export function GiftProgressTrack() {
                 onClick={() => openMemberModal(member)}
                 className={`group relative rounded-3xl p-5 border-2 cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                   isPastel
-                    ? `bg-gradient-to-br ${accent.bg} ${accent.border} shadow-md`
+                    ? `bg-linear-to-br ${accent.bg} ${accent.border} shadow-md`
                     : "bg-zinc-900 border-red-700/80 shadow-md hover:border-red-500"
                 }`}
               >

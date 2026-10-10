@@ -72,8 +72,8 @@ export function LotteryControls() {
           <div
             className={`h-full transition-all duration-700 rounded-full ${
               isPastel
-                ? "bg-gradient-to-r from-purple-500 via-pink-400 to-amber-300"
-                : "bg-gradient-to-r from-red-600 via-red-500 to-white"
+                ? "bg-linear-to-r from-purple-500 via-pink-400 to-amber-300"
+                : "bg-linear-to-r from-red-600 via-red-500 to-white"
             }`}
             style={{ width: `${progressPercent}%` }}
           />
@@ -113,8 +113,8 @@ export function LotteryControls() {
             disabled={isSpinning || isCompleted}
             className={`flex-1 py-3.5 px-5 rounded-2xl font-bold text-sm shadow-md transition-all duration-200 disabled:opacity-40 disabled:pointer-events-none hover:scale-[1.02] active:scale-[0.98] ${
               isPastel
-                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
-                : "bg-gradient-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
+                ? "bg-linear-to-r from-purple-600 via-pink-500 to-amber-400 text-white shadow-purple-200"
+                : "bg-linear-to-r from-red-600 to-zinc-900 text-white shadow-red-950"
             }`}
           >
             {isSpinning

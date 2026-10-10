@@ -169,7 +169,7 @@ export function AuthCard() {
             disabled={isSubmitting || !password}
             className={`w-full py-3.5 px-4 rounded-2xl font-bold text-sm tracking-wide shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${
               isPastel
-                ? "bg-gradient-to-r from-purple-600 via-pink-500 to-amber-500 text-white shadow-purple-200 hover:shadow-purple-300"
+                ? "bg-linear-to-r from-purple-600 via-pink-500 to-amber-500 text-white shadow-purple-200 hover:shadow-purple-300"
                 : "bg-red-600 text-white shadow-red-950 hover:bg-red-700"
             }`}
           >

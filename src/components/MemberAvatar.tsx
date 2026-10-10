@@ -48,8 +48,8 @@ export function MemberAvatar({ member, size = "md", className = "" }: MemberAvat
     <div
       className={`relative rounded-2xl border-2 flex flex-col items-center justify-center text-center p-2 transition-all shadow-sm ${sizeClasses} ${className} ${
         isPastel
-          ? "border-purple-300 bg-gradient-to-br from-purple-100 via-pink-100 to-amber-100 text-purple-950"
-          : "border-red-600 bg-gradient-to-br from-zinc-900 via-zinc-950 to-red-950 text-white"
+          ? "border-purple-300 bg-linear-to-br from-purple-100 via-pink-100 to-amber-100 text-purple-950"
+          : "border-red-600 bg-linear-to-br from-zinc-900 via-zinc-950 to-red-950 text-white"
       }`}
     >
       <span className="font-extrabold tracking-tight leading-tight">
