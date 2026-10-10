@@ -169,8 +169,8 @@ export function AuthCard() {
             disabled={isSubmitting || !password}
             className={`w-full py-3.5 px-4 rounded-2xl font-bold text-sm tracking-wide shadow-md transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none ${
               isPastel
-                ? "bg-linear-to-r from-purple-600 via-violet-600 to-purple-700 text-white shadow-purple-300/40 hover:from-purple-500 hover:to-purple-600"
-                : "bg-red-600 text-white shadow-red-950 hover:bg-red-700"
+                ? "bg-linear-to-r from-purple-200 via-pink-200 to-purple-300 text-purple-950 font-black border-2 border-purple-300 shadow-md hover:from-purple-300 hover:to-pink-300"
+                : "bg-red-600 text-white shadow-red-950 hover:bg-red-700 font-black"
             }`}
           >
             {selectedProfile === "valentina" ? "Comenzar el Sorteo 🎁" : "Ingresar"}

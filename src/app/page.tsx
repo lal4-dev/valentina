@@ -41,7 +41,7 @@ export default function HomePage() {
         }`}
       >
         {/* Left: User Profile with photo placeholder */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0">
           <UserHeaderAvatar userId={currentUser?.id} name={currentUser?.name} />
           <div>
             <div className="flex items-center gap-2">
@@ -68,10 +68,13 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Right side: Countdown, Theme Toggle, Logout */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        {/* Center: Prominent Concert Countdown on desktop */}
+        <div className="hidden lg:flex items-center justify-center">
           <ConcertCountdown />
+        </div>
 
+        {/* Right side: Theme Toggle & Logout */}
+        <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
 
           <button
@@ -87,6 +90,11 @@ export default function HomePage() {
           </button>
         </div>
       </header>
+
+      {/* Prominent Center Countdown on smaller screens / mobile */}
+      <div className="lg:hidden flex justify-center pt-3.5 px-4">
+        <ConcertCountdown />
+      </div>
 
       {/* Hero Welcome Banner */}
       <section className="text-center pt-8 sm:pt-12 px-4 max-w-2xl mx-auto">
