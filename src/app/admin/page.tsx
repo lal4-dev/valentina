@@ -35,6 +35,11 @@ export default function PaginaAdministrador() {
   const [estaEnviando, setEstaEnviando] = useState(false);
   const [reinicioExitoso, setReinicioExitoso] = useState(false);
 
+  // Estados de colapso interactivo para visualización móvil
+  const [seccionSimuladorAbierta, setSeccionSimuladorAbierta] = useState(true);
+  const [seccionProgresoAbierta, setSeccionProgresoAbierta] = useState(true);
+  const [seccionMiembrosAbierta, setSeccionMiembrosAbierta] = useState(true);
+
   const esPastel = tema === "pastel";
 
   // Manejador del formulario de autenticación de admin
@@ -183,52 +188,75 @@ export default function PaginaAdministrador() {
   // VISTA 2: Dashboard de Control del Administrador
   // Visible una vez validada la sesión de administrador.
   // ==========================================================================
+  const todasAbiertas = seccionSimuladorAbierta && seccionProgresoAbierta && seccionMiembrosAbierta;
+  const alternarTodasLasSecciones = () => {
+    const nuevoEstado = !todasAbiertas;
+    setSeccionSimuladorAbierta(nuevoEstado);
+    setSeccionProgresoAbierta(nuevoEstado);
+    setSeccionMiembrosAbierta(nuevoEstado);
+  };
+
   return (
-    <main className="min-h-screen flex flex-col py-8 px-4 sm:px-8 max-w-4xl mx-auto transition-colors duration-300">
+    <main className="min-h-screen flex flex-col py-6 sm:py-8 px-3.5 sm:px-8 max-w-4xl mx-auto transition-colors duration-300">
       {/* Barra superior del panel */}
-      <header className="flex items-center justify-between pb-6 border-b border-gray-200 dark:border-zinc-800">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-lg shadow-md">
+      <header className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 sm:pb-6 border-b border-gray-200 dark:border-zinc-800">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-2xl bg-red-600 text-white flex items-center justify-center font-bold text-lg shadow-md shrink-0">
             🛠️
           </div>
-          <div>
-            <h1 className="text-xl font-extrabold flex items-center gap-2">
-              Panel de Administrador
-              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500 text-white">
+          <div className="min-w-0">
+            <h1 className="text-lg sm:text-xl font-extrabold flex items-center gap-2">
+              <span className="truncate">Panel de Administrador</span>
+              <span className="shrink-0 text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-500 text-white">
                 ACTIVO
               </span>
             </h1>
-            <p className="text-xs opacity-75">Bypass de fecha habilitado para pruebas</p>
+            <p className="text-xs opacity-75 truncate">Bypass de fecha habilitado para pruebas</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <BotonCambioTema />
+        <div className="flex items-center justify-between sm:justify-end gap-2.5 w-full sm:w-auto">
+          {/* Botón rápido para alternar todas las secciones en celulares */}
           <button
-            onClick={cerrarSesion}
             type="button"
+            onClick={alternarTodasLasSecciones}
             className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
               esPastel
-                ? "bg-white border-purple-200 text-purple-800 hover:bg-purple-50"
-                : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+                ? "bg-purple-100 border-purple-200 text-purple-900 hover:bg-purple-200"
+                : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
             }`}
           >
-            Cerrar Sesión
+            {todasAbiertas ? "▲ Plegar todo" : "▼ Expandir todo"}
           </button>
+
+          <div className="flex items-center gap-2">
+            <BotonCambioTema />
+            <button
+              onClick={cerrarSesion}
+              type="button"
+              className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all cursor-pointer ${
+                esPastel
+                  ? "bg-white border-purple-200 text-purple-800 hover:bg-purple-50"
+                  : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+              }`}
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
       </header>
 
       {/* Tarjetas de administración y herramientas */}
-      <div className="mt-6 space-y-6">
-        {/* Tarjeta de Acceso Rápido a la Ruleta */}
+      <div className="mt-5 sm:mt-6 space-y-4 sm:space-y-6">
+        {/* Tarjeta 1: Acceso Rápido a la Ruleta */}
         <div
-          className={`p-6 rounded-3xl border shadow-sm ${
+          className={`p-5 sm:p-6 rounded-3xl border shadow-xs ${
             esPastel ? "bg-white border-purple-200" : "bg-zinc-950 border-zinc-800"
           }`}
         >
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-black flex items-center gap-2">
+            <div className="min-w-0">
+              <h2 className="text-base sm:text-lg font-black flex items-center gap-2">
                 <span>🎁</span>
                 <span>Probar la Ruleta de Regalos</span>
               </h2>
@@ -239,7 +267,7 @@ export default function PaginaAdministrador() {
 
             <Link
               href="/"
-              className={`px-5 py-3 rounded-2xl font-black text-sm text-center shrink-0 shadow-md transition-transform hover:scale-105 active:scale-95 ${
+              className={`w-full sm:w-auto px-5 py-3 rounded-2xl font-black text-sm text-center shrink-0 shadow-md transition-transform hover:scale-105 active:scale-95 ${
                 esPastel
                   ? "bg-linear-to-r from-purple-200 via-pink-200 to-purple-300 text-purple-950 border border-purple-300"
                   : "bg-red-600 text-white hover:bg-red-700"
@@ -250,130 +278,196 @@ export default function PaginaAdministrador() {
           </div>
         </div>
 
-        {/* Información de estado y Reinicio exclusivo */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Tarjeta: Progreso del sorteo */}
-          <div
-            className={`p-5 rounded-3xl border ${
-              esPastel ? "bg-purple-50/70 border-purple-200" : "bg-zinc-900 border-zinc-800"
-            }`}
-          >
-            <h3 className="font-extrabold text-sm mb-3 flex items-center gap-2">
-              <span>📊</span>
-              <span>Progreso de Regalos Sorteados</span>
-            </h3>
-
-            <p className="text-2xl font-black mb-2">
-              {numerosSorteados.length} / 7 regalos develados
-            </p>
-
-            <div className="text-xs space-y-1 opacity-85 mb-4">
-              <p>
-                • Primer giro garantizado: <strong>Regalo #4 (Namjoon)</strong>
-              </p>
-              <p>
-                • Siguientes giros: <strong>Aleatorio de los restantes</strong>
-              </p>
-              <p>
-                • Desbloqueo de Valentina: <strong>14 de Octubre de 2026, 00:00 hs (Arg)</strong>
-              </p>
-            </div>
-
-            {reinicioExitoso && (
-              <div className="p-2 mb-3 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold text-center">
-                ✓ ¡Regalos reiniciados con éxito!
-              </div>
-            )}
-
-            <button
-              type="button"
-              onClick={manejarReinicioSorteo}
-              className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
-                esPastel
-                  ? "bg-white border-purple-300 text-purple-900 hover:bg-purple-100"
-                  : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
-              }`}
-            >
-              🔄 Reiniciar sorteo de regalos (volver a empezar)
-            </button>
-          </div>
-
-          {/* Tarjeta: Miembros ya sorteados */}
-          <div
-            className={`p-5 rounded-3xl border ${
-              esPastel ? "bg-purple-50/70 border-purple-200" : "bg-zinc-900 border-zinc-800"
-            }`}
-          >
-            <h3 className="font-extrabold text-sm mb-3 flex items-center gap-2">
-              <span>{esPastel ? "💜" : "❤️"}</span>
-              <span>Miembros ya develados ({numerosSorteados.length})</span>
-            </h3>
-
-            {numerosSorteados.length === 0 ? (
-              <p className="text-xs opacity-60 italic py-4">
-                Aún no se ha girado la ruleta. Al girar por primera vez saldrá el regalo #4.
-              </p>
-            ) : (
-              <ul className="text-xs space-y-1.5">
-                {numerosSorteados.map((num, idx) => {
-                  const miembro = MIEMBROS_BTS.find((m) => m.numero === num);
-                  return (
-                    <li
-                      key={num}
-                      className="flex items-center justify-between p-2 rounded-xl bg-white/50 dark:bg-zinc-950/50"
-                    >
-                      <span className="font-bold">
-                        Giro #{idx + 1}: Regalo #{num} ({miembro?.nombreArtistico})
-                      </span>
-                      <span className="text-[10px] opacity-75">#{miembro?.nombre}</span>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* Simulador de pantalla de Valentina */}
+        {/* Tarjeta 2: Simulador de Pantalla de Valentina (Colapsable) */}
         <div
-          className={`p-6 rounded-3xl border ${
+          className={`rounded-3xl border overflow-hidden transition-all duration-300 ${
             esPastel ? "bg-white border-purple-200" : "bg-zinc-950 border-zinc-800"
           }`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <h4 className="font-extrabold text-sm flex items-center gap-2">
+          <div
+            onClick={() => setSeccionSimuladorAbierta(!seccionSimuladorAbierta)}
+            className={`p-5 sm:p-6 flex items-center justify-between gap-3 cursor-pointer select-none transition-colors ${
+              esPastel ? "hover:bg-purple-50/50" : "hover:bg-zinc-900/50"
+            }`}
+          >
+            <div className="min-w-0">
+              <h3 className="font-extrabold text-sm sm:text-base flex items-center gap-2">
                 <span>👀</span>
                 <span>Simulador de Pantalla de Valentina</span>
-              </h4>
-              <p className="text-xs opacity-75 mt-1 leading-relaxed">
+              </h3>
+              {!seccionSimuladorAbierta && (
+                <p className="text-xs opacity-60 mt-0.5 truncate">
+                  Simula la cuenta regresiva activa o el contador desbloqueado en 0
+                </p>
+              )}
+            </div>
+
+            <button
+              type="button"
+              className={`text-xs font-bold px-2.5 py-1 rounded-xl border shrink-0 transition-colors pointer-events-none ${
+                esPastel
+                  ? "bg-purple-100 border-purple-200 text-purple-900"
+                  : "bg-zinc-900 border-zinc-700 text-zinc-300"
+              }`}
+            >
+              {seccionSimuladorAbierta ? "▲ Plegar" : "▼ Expandir"}
+            </button>
+          </div>
+
+          {seccionSimuladorAbierta && (
+            <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-2 border-t border-gray-100 dark:border-zinc-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4 animate-pop">
+              <p className="text-xs opacity-75 leading-relaxed">
                 Probá cómo ve Valentina la página antes de medianoche y cómo se verá exactamente cuando el contador llegue a 00:00:00:00.
               </p>
-            </div>
 
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
-              <Link
-                href="/?preview=lock"
-                className={`text-xs font-bold px-3.5 py-2 rounded-xl border transition-all hover:scale-105 active:scale-95 ${
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0 w-full sm:w-auto">
+                <Link
+                  href="/?preview=lock"
+                  className={`w-full sm:w-auto text-center text-xs font-bold px-3.5 py-2.5 rounded-xl border transition-all hover:scale-105 active:scale-95 ${
+                    esPastel
+                      ? "bg-purple-100 border-purple-200 text-purple-900 hover:bg-purple-200"
+                      : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+                  }`}
+                >
+                  ⏱️ Con Contador Activo
+                </Link>
+
+                <Link
+                  href="/?preview=zero"
+                  className={`w-full sm:w-auto text-center text-xs font-black px-4 py-2.5 rounded-xl border shadow-sm transition-all hover:scale-105 active:scale-95 ${
+                    esPastel
+                      ? "bg-linear-to-r from-purple-200 via-pink-200 to-purple-300 text-purple-950 border-purple-300 shadow-purple-100"
+                      : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-700 shadow-emerald-950"
+                  }`}
+                >
+                  🎉 Probar Contador en 0
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Sección 3 y 4: Información de estado y Reinicio exclusivo en Grid Responsivo */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Tarjeta: Progreso del sorteo (Colapsable) */}
+          <div
+            className={`rounded-3xl border overflow-hidden transition-all duration-300 ${
+              esPastel ? "bg-purple-50/70 border-purple-200" : "bg-zinc-900 border-zinc-800"
+            }`}
+          >
+            <div
+              onClick={() => setSeccionProgresoAbierta(!seccionProgresoAbierta)}
+              className="p-4 sm:p-5 flex items-center justify-between gap-3 cursor-pointer select-none"
+            >
+              <h3 className="font-extrabold text-sm flex items-center gap-2 min-w-0">
+                <span>📊</span>
+                <span className="truncate">Progreso ({numerosSorteados.length}/7)</span>
+              </h3>
+
+              <button
+                type="button"
+                className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border shrink-0 pointer-events-none ${
                   esPastel
-                    ? "bg-purple-100 border-purple-200 text-purple-900 hover:bg-purple-200"
-                    : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
+                    ? "bg-white border-purple-200 text-purple-800"
+                    : "bg-zinc-800 border-zinc-700 text-zinc-300"
                 }`}
               >
-                ⏱️ Con Contador Activo
-              </Link>
+                {seccionProgresoAbierta ? "▲" : "▼"}
+              </button>
+            </div>
 
-              <Link
-                href="/?preview=zero"
-                className={`text-xs font-black px-4 py-2 rounded-xl border shadow-sm transition-all hover:scale-105 active:scale-95 ${
+            {seccionProgresoAbierta && (
+              <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-1 animate-pop">
+                <p className="text-2xl font-black mb-2">
+                  {numerosSorteados.length} / 7 regalos develados
+                </p>
+
+                <div className="text-xs space-y-1 opacity-85 mb-4">
+                  <p>
+                    • Primer giro garantizado: <strong>Regalo #4 (Namjoon)</strong>
+                  </p>
+                  <p>
+                    • Siguientes giros: <strong>Aleatorio de los restantes</strong>
+                  </p>
+                  <p>
+                    • Desbloqueo de Valentina: <strong>14 de Octubre de 2026, 00:00 hs (Arg)</strong>
+                  </p>
+                </div>
+
+                {reinicioExitoso && (
+                  <div className="p-2 mb-3 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold text-center">
+                    ✓ ¡Regalos reiniciados con éxito!
+                  </div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={manejarReinicioSorteo}
+                  className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold border transition-colors cursor-pointer ${
+                    esPastel
+                      ? "bg-white border-purple-300 text-purple-900 hover:bg-purple-100"
+                      : "bg-zinc-800 border-zinc-700 text-zinc-200 hover:bg-zinc-700"
+                  }`}
+                >
+                  🔄 Reiniciar sorteo de regalos (volver a empezar)
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Tarjeta: Miembros ya sorteados (Colapsable) */}
+          <div
+            className={`rounded-3xl border overflow-hidden transition-all duration-300 ${
+              esPastel ? "bg-purple-50/70 border-purple-200" : "bg-zinc-900 border-zinc-800"
+            }`}
+          >
+            <div
+              onClick={() => setSeccionMiembrosAbierta(!seccionMiembrosAbierta)}
+              className="p-4 sm:p-5 flex items-center justify-between gap-3 cursor-pointer select-none"
+            >
+              <h3 className="font-extrabold text-sm flex items-center gap-2 min-w-0">
+                <span>{esPastel ? "💜" : "❤️"}</span>
+                <span className="truncate">Miembros develados ({numerosSorteados.length})</span>
+              </h3>
+
+              <button
+                type="button"
+                className={`text-[11px] font-bold px-2 py-0.5 rounded-lg border shrink-0 pointer-events-none ${
                   esPastel
-                    ? "bg-linear-to-r from-purple-200 via-pink-200 to-purple-300 text-purple-950 border-purple-300 shadow-purple-100"
-                    : "bg-emerald-600 text-white border-emerald-500 hover:bg-emerald-700 shadow-emerald-950"
+                    ? "bg-white border-purple-200 text-purple-800"
+                    : "bg-zinc-800 border-zinc-700 text-zinc-300"
                 }`}
               >
-                🎉 Probar Contador en 0
-              </Link>
+                {seccionMiembrosAbierta ? "▲" : "▼"}
+              </button>
             </div>
+
+            {seccionMiembrosAbierta && (
+              <div className="px-4 pb-4 sm:px-5 sm:pb-5 pt-1 animate-pop">
+                {numerosSorteados.length === 0 ? (
+                  <p className="text-xs opacity-60 italic py-3">
+                    Aún no se ha girado la ruleta. Al girar por primera vez saldrá el regalo #4.
+                  </p>
+                ) : (
+                  <ul className="text-xs space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                    {numerosSorteados.map((num, idx) => {
+                      const miembro = MIEMBROS_BTS.find((m) => m.numero === num);
+                      return (
+                        <li
+                          key={num}
+                          className="flex items-center justify-between p-2 rounded-xl bg-white/50 dark:bg-zinc-950/50"
+                        >
+                          <span className="font-bold">
+                            Giro #{idx + 1}: Regalo #{num} ({miembro?.nombreArtistico})
+                          </span>
+                          <span className="text-[10px] opacity-75">#{miembro?.nombre}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

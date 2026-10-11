@@ -78,6 +78,8 @@ function ContenidoPrincipal() {
   );
 
   const [desbloqueoManual, setDesbloqueoManual] = useState(false);
+  const [barraPruebaColapsada, setBarraPruebaColapsada] = useState(false);
+  const [adminBannerColapsado, setAdminBannerColapsado] = useState(false);
   const estaDesbloqueado = estaDesbloqueadoTiempo || desbloqueoManual;
 
   // ==========================================================================
@@ -87,79 +89,114 @@ function ContenidoPrincipal() {
   if (esAdmin && vistaPruebaActiva !== null) {
     return (
       <div className="relative">
-        <aside
-          aria-label="Barra de prueba de administrador"
-          className="fixed top-3 left-1/2 -translate-x-1/2 z-50 bg-neutral-900/95 backdrop-blur-md text-white text-xs font-bold py-2 px-3 sm:px-4 rounded-full shadow-2xl border border-neutral-700 flex flex-wrap items-center justify-center gap-2"
-        >
-          <span className="hidden sm:inline text-neutral-400">Modo Prueba:</span>
-
-          {/* Botón para probar la cuenta regresiva activa con segundero */}
-          <Link
-            href="/?preview=lock"
-            className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
-              vistaPruebaActiva === "cuentaRegresiva"
-                ? "bg-purple-600 text-white font-black shadow-xs"
-                : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-            }`}
+        {/* Barra flotante colapsable para pruebas de administrador */}
+        {barraPruebaColapsada ? (
+          <aside
+            aria-label="Barra de prueba de administrador minimizada"
+            className="fixed top-2.5 left-1/2 -translate-x-1/2 z-50 animate-pop"
           >
-            ⏱️ Con Contador
-          </Link>
-
-          {/* Botón para probar el contador finalizado en 0 */}
-          <Link
-            href="/?preview=zero"
-            className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
-              vistaPruebaActiva === "cero"
-                ? "bg-emerald-600 text-white font-black shadow-xs"
-                : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-            }`}
+            <button
+              type="button"
+              onClick={() => setBarraPruebaColapsada(false)}
+              className="bg-neutral-900/95 backdrop-blur-md text-white text-xs font-black py-1.5 px-3.5 rounded-full shadow-2xl border border-neutral-700 flex items-center gap-2 hover:bg-neutral-800 transition-all active:scale-95 cursor-pointer"
+            >
+              <span>🛠️</span>
+              <span>
+                {vistaPruebaActiva === "cero"
+                  ? "Prueba: En 0"
+                  : vistaPruebaActiva === "cuentaRegresiva"
+                  ? "Prueba: Contador"
+                  : "Prueba: Login"}
+              </span>
+              <span className="text-neutral-400 text-[10px]">▼ Expandir</span>
+            </button>
+          </aside>
+        ) : (
+          <aside
+            aria-label="Barra de prueba de administrador"
+            className="fixed top-2.5 sm:top-3 left-1/2 -translate-x-1/2 z-50 max-w-[calc(100vw-1.5rem)] bg-neutral-900/95 backdrop-blur-md text-white text-xs font-bold py-2 px-3 sm:px-4 rounded-3xl sm:rounded-full shadow-2xl border border-neutral-700 flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 animate-pop"
           >
-            🎉 Contador en 0 (Desbloqueado)
-          </Link>
+            <span className="hidden sm:inline text-neutral-400">Modo Prueba:</span>
 
-          {/* Botón para probar la tarjeta de inicio de sesión */}
-          <Link
-            href="/?preview=login"
-            className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
-              vistaPruebaActiva === "login"
-                ? "bg-amber-600 text-white font-black shadow-xs"
-                : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
-            }`}
-          >
-            🔑 Probar Login
-          </Link>
+            {/* Botón para probar la cuenta regresiva activa con segundero */}
+            <Link
+              href="/?preview=lock"
+              className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
+                vistaPruebaActiva === "cuentaRegresiva"
+                  ? "bg-purple-600 text-white font-black shadow-xs"
+                  : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
+              }`}
+            >
+              ⏱️ Contador
+            </Link>
 
-          <div className="h-4 w-px bg-neutral-700 mx-1 hidden sm:block" />
+            {/* Botón para probar el contador finalizado en 0 */}
+            <Link
+              href="/?preview=zero"
+              className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
+                vistaPruebaActiva === "cero"
+                  ? "bg-emerald-600 text-white font-black shadow-xs"
+                  : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
+              }`}
+            >
+              🎉 Contador en 0
+            </Link>
 
-          {/* Enlaces para volver al panel o a la ruleta */}
-          <Link
-            href="/admin"
-            className="bg-neutral-800 hover:bg-neutral-700 text-white px-2.5 py-1 rounded-full text-[11px] border border-neutral-600 transition-colors"
-          >
-            Panel Admin
-          </Link>
-          <Link
-            href="/"
-            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-[11px] transition-colors font-extrabold cursor-pointer"
-          >
-            Ir a la Ruleta →
-          </Link>
-        </aside>
+            {/* Botón para probar la tarjeta de inicio de sesión */}
+            <Link
+              href="/?preview=login"
+              className={`px-2.5 py-1 rounded-full text-[11px] transition-all cursor-pointer ${
+                vistaPruebaActiva === "login"
+                  ? "bg-amber-600 text-white font-black shadow-xs"
+                  : "bg-neutral-800 text-neutral-300 hover:bg-neutral-700"
+              }`}
+            >
+              🔑 Login
+            </Link>
+
+            <div className="h-4 w-px bg-neutral-700 mx-0.5 hidden sm:block" />
+
+            {/* Enlaces para volver al panel o a la ruleta */}
+            <Link
+              href="/admin"
+              className="bg-neutral-800 hover:bg-neutral-700 text-white px-2.5 py-1 rounded-full text-[11px] border border-neutral-600 transition-colors"
+            >
+              Panel Admin
+            </Link>
+            <Link
+              href="/"
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-full text-[11px] transition-colors font-extrabold cursor-pointer"
+            >
+              Ruleta →
+            </Link>
+
+            <button
+              type="button"
+              onClick={() => setBarraPruebaColapsada(true)}
+              title="Minimizar barra de prueba"
+              className="text-neutral-400 hover:text-white text-[11px] px-2 py-0.5 rounded-full bg-neutral-800/80 hover:bg-neutral-700 transition-colors cursor-pointer ml-1"
+            >
+              ▲ Ocultar
+            </button>
+          </aside>
+        )}
 
         {vistaPruebaActiva === "login" ? (
-          <main className="min-h-screen flex flex-col justify-center items-center py-16 px-4 relative">
+          <main className="min-h-screen flex flex-col justify-center items-center pt-24 pb-16 px-4 relative">
             <div className="absolute top-5 right-5 z-20">
               <BotonCambioTema />
             </div>
             <TarjetaAutenticacion />
           </main>
         ) : (
-          <PantallaBloqueoCumple
-            forzarEstado={vistaPruebaActiva === "cero" ? "cero" : "cuentaRegresiva"}
-            alDesbloquear={() => {
-              enrutador.push("/");
-            }}
-          />
+          <div className="pt-2 sm:pt-0">
+            <PantallaBloqueoCumple
+              forzarEstado={vistaPruebaActiva === "cero" ? "cero" : "cuentaRegresiva"}
+              alDesbloquear={() => {
+                enrutador.push("/");
+              }}
+            />
+          </div>
         )}
       </div>
     );
@@ -194,97 +231,121 @@ function ContenidoPrincipal() {
   // ==========================================================================
   return (
     <main className="min-h-screen flex flex-col relative transition-colors duration-300 pb-16">
-      {/* Banner discreto superior para el Administrador */}
-      {esAdmin && (
-        <aside
-          aria-label="Aviso de administrador"
-          className="bg-red-600 text-white text-xs font-bold py-1.5 px-4 flex items-center justify-between shadow-xs"
-        >
-          <div className="flex items-center gap-2">
-            <span>🛠️</span>
-            <span>Modo Administrador Activo (Bypass de fecha habilitado)</span>
-          </div>
-          <div className="flex items-center gap-2 text-[11px]">
-            <Link
-              href="/?preview=lock"
-              className="bg-black/30 hover:bg-black/50 px-2 py-0.5 rounded-md transition-colors text-white"
-            >
-              ⏱️ Ver Contador
-            </Link>
-            <Link
-              href="/?preview=zero"
-              className="bg-emerald-700 hover:bg-emerald-800 px-2 py-0.5 rounded-md transition-colors text-white"
-            >
-              🎉 Probar en 0
-            </Link>
-            <Link
-              href="/admin"
-              className="bg-white text-red-600 hover:bg-gray-100 px-2 py-0.5 rounded-md transition-colors font-extrabold"
-            >
-              Panel Admin
-            </Link>
-          </div>
-        </aside>
-      )}
+      {/* Contenedor Superior Adherente (Header + Banner Admin unificados) */}
+      <div className="sticky top-0 z-40">
+        {/* Banner discreto y colapsable superior para el Administrador */}
+        {esAdmin && (
+          <aside
+            aria-label="Aviso de administrador"
+            className="bg-linear-to-r from-red-600 via-rose-600 to-red-700 text-white text-xs font-bold py-1.5 px-3 sm:px-6 shadow-xs border-b border-red-700/60"
+          >
+            <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-1.5 sm:gap-2">
+              {/* Izquierda: Indicador de modo */}
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="text-sm">🛠️</span>
+                <span className="truncate text-[11px] sm:text-xs">
+                  <span className="font-black">Modo Admin</span>
+                  <span className="hidden sm:inline font-normal opacity-90"> (Bypass de fecha habilitado)</span>
+                </span>
+              </div>
 
-      {/* Barra de navegación superior */}
-      <header
-        className={`sticky top-0 z-40 backdrop-blur-md border-b px-4 sm:px-8 py-3 flex items-center justify-between transition-colors duration-300 ${
-          esPastel
-            ? "bg-white/85 border-purple-200/80 shadow-xs"
-            : "bg-zinc-950/90 border-zinc-800 shadow-xs"
-        }`}
-      >
-        {/* Izquierda: Perfil de usuario con avatar */}
-        <div className="flex items-center gap-3 min-w-0">
-          <AvatarEncabezadoUsuario idUsuario={usuarioActual?.id} nombre={usuarioActual?.nombre} />
-          <div>
-            <div className="flex items-center gap-2">
-              <span
-                className={`font-black text-sm sm:text-base leading-none ${
-                  esPastel ? "text-purple-950" : "text-white"
+              {/* Derecha: Accesos rápidos y control de colapso */}
+              <div className="flex items-center gap-1.5 sm:gap-2 text-[11px]">
+                <button
+                  type="button"
+                  onClick={() => setAdminBannerColapsado(!adminBannerColapsado)}
+                  className="bg-black/30 hover:bg-black/50 px-2 py-0.5 rounded-md transition-colors text-white font-medium cursor-pointer sm:hidden"
+                >
+                  {adminBannerColapsado ? "▾ Herramientas" : "▲ Ocultar"}
+                </button>
+
+                {/* En móvil se ocultan si está colapsado; en pantallas medianas siempre visibles */}
+                <div className={`items-center gap-1.5 sm:gap-2 ${adminBannerColapsado ? "hidden sm:flex" : "flex"}`}>
+                  <Link
+                    href="/?preview=lock"
+                    className="bg-black/25 hover:bg-black/45 px-2 py-0.5 rounded-md transition-colors text-white"
+                  >
+                    ⏱️ Contador
+                  </Link>
+                  <Link
+                    href="/?preview=zero"
+                    className="bg-emerald-700 hover:bg-emerald-800 px-2 py-0.5 rounded-md transition-colors text-white font-medium"
+                  >
+                    🎉 En 0
+                  </Link>
+                  <Link
+                    href="/admin"
+                    className="bg-white text-red-700 hover:bg-gray-100 px-2 py-0.5 rounded-md transition-colors font-black shadow-xs"
+                  >
+                    Panel
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </aside>
+        )}
+
+        {/* Barra de navegación superior */}
+        <header
+          className={`backdrop-blur-md border-b px-3 sm:px-8 py-2.5 sm:py-3 transition-colors duration-300 ${
+            esPastel
+              ? "bg-white/90 border-purple-200/80 shadow-xs"
+              : "bg-zinc-950/92 border-zinc-800 shadow-xs"
+          }`}
+        >
+          <div className="max-w-6xl mx-auto flex items-center justify-between gap-2">
+            {/* Izquierda: Perfil de usuario con avatar */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1 mr-1">
+              <AvatarEncabezadoUsuario idUsuario={usuarioActual?.id} nombre={usuarioActual?.nombre} />
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className={`font-black text-xs sm:text-base leading-none truncate ${
+                      esPastel ? "text-purple-950" : "text-white"
+                    }`}
+                  >
+                    {usuarioActual?.nombre}
+                  </span>
+                  {esAdmin && (
+                    <span className="shrink-0 text-[9px] font-black px-1.5 py-0.5 rounded-full bg-red-600 text-white">
+                      ADMIN
+                    </span>
+                  )}
+                </div>
+                <p
+                  className={`text-[10px] sm:text-[11px] leading-tight mt-0.5 font-medium truncate ${
+                    esPastel ? "text-purple-600" : "text-zinc-400"
+                  }`}
+                >
+                  {usuarioActual?.tituloRol}
+                </p>
+              </div>
+            </div>
+
+            {/* Centro: Contador del Concierto Arirang en tablet apaisada y computadoras */}
+            <div className="hidden md:flex items-center justify-center px-2 shrink-0">
+              <ContadorConcierto />
+            </div>
+
+            {/* Derecha: Botón de cambio de tema y cerrar sesión */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+              <BotonCambioTema />
+
+              <button
+                onClick={cerrarSesion}
+                type="button"
+                className={`text-xs font-bold px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-full border transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer ${
+                  esPastel
+                    ? "bg-white border-purple-200 text-purple-700 hover:bg-purple-50"
+                    : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
                 }`}
               >
-                {usuarioActual?.nombre}
-              </span>
-              {esAdmin && (
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-600 text-white">
-                  ADMIN
-                </span>
-              )}
+                Salir
+              </button>
             </div>
-            <p
-              className={`text-[11px] leading-tight mt-0.5 font-medium ${
-                esPastel ? "text-purple-600" : "text-zinc-400"
-              }`}
-            >
-              {usuarioActual?.tituloRol}
-            </p>
           </div>
-        </div>
-
-        {/* Centro: Contador del Concierto Arirang en tablet apaisada y computadoras */}
-        <div className="hidden md:flex items-center justify-center px-2">
-          <ContadorConcierto />
-        </div>
-
-        {/* Derecha: Botón de cambio de tema y cerrar sesión */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          <BotonCambioTema />
-
-          <button
-            onClick={cerrarSesion}
-            type="button"
-            className={`text-xs font-bold px-3 py-1.5 rounded-full border transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer ${
-              esPastel
-                ? "bg-white border-purple-200 text-purple-700 hover:bg-purple-50"
-                : "bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800"
-            }`}
-          >
-            Salir
-          </button>
-        </div>
-      </header>
+        </header>
+      </div>
 
       {/* Contador de concierto centrado en móviles */}
       <div className="md:hidden flex justify-center pt-3 px-4">

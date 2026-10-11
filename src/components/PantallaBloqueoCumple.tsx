@@ -182,7 +182,6 @@ export function PantallaBloqueoCumple({
               : "bg-red-950/80 text-red-300 border-red-800"
               }`}
           >
-            <br />
             <span>🎂</span>
             <span>Tu cumpleaños es un momento único</span>
             <span>🎂</span>
