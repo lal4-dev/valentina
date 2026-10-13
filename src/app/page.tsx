@@ -193,7 +193,7 @@ function ContenidoPrincipal() {
             <PantallaBloqueoCumple
               forzarEstado={vistaPruebaActiva === "cero" ? "cero" : "cuentaRegresiva"}
               alDesbloquear={() => {
-                enrutador.push("/");
+                enrutador.push("/?preview=login");
               }}
             />
           </div>

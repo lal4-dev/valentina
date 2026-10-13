@@ -12,6 +12,7 @@
 // ============================================================================
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { PERFILES_USUARIO, IdentificadorUsuario } from "@/data/configuracionAutenticacion";
 import { useAutenticacion } from "@/context/ContextoAutenticacion";
 import { useTema } from "@/context/ContextoTema";
@@ -22,6 +23,7 @@ import { useTema } from "@/context/ContextoTema";
 // ============================================================================
 
 export function TarjetaAutenticacion() {
+  const router = useRouter();
   const { iniciarSesion } = useAutenticacion();
   const { tema } = useTema();
 
@@ -46,6 +48,8 @@ export function TarjetaAutenticacion() {
     if (!resultado.exito) {
       setMensajeError(resultado.error || "Clave incorrecta");
       setEstaEnviando(false);
+    } else {
+      router.push("/");
     }
   };
 
