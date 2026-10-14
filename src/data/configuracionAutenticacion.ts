@@ -38,11 +38,11 @@ export const PERFILES_USUARIO: PerfilUsuario[] = [
     nombre: "Valentina",
     tituloRol: "La cumpleañera estrella ✨",
     iconoAvatar: "🎂",
-    pistaClavePorDefecto: "Solo números sin espacios (ej: DDMMAAAA)",
+    pistaClavePorDefecto: "No te voy a decir",
     name: "Valentina",
     roleTitle: "La cumpleañera estrella ✨",
     avatarIcon: "🎂",
-    defaultPasswordHint: "Solo números sin espacios (ej: DDMMAAAA)",
+    defaultPasswordHint: "No te la voy a decir",
   },
   {
     id: "admin",
@@ -64,8 +64,8 @@ export const PERFILES_USUARIO: PerfilUsuario[] = [
 
 export const CREDENCIALES_ACCESO = {
   valentina: {
-    clave: "14102026",
-    password: "14102026",
+    clave: "14102026vale",
+    password: "14102026vale",
     rolesPermitidos: ["valentina"],
     allowedRoles: ["valentina"],
   },

@@ -15,7 +15,7 @@ Este proyecto está completamente especificado y gobernado bajo el estándar **O
 | Capacidad | Descripción | Archivo |
 | :--- | :--- | :--- |
 | **`birthday-lock`** | Bloqueo temporal hasta el 14/10/2026 00:00 hs (Arg UTC-3), reloj de 4 segmentos (Días/Horas/Min/Seg), confeti y avatar de Valentina con corazón reactivo. | [`openspec/specs/birthday-lock/spec.md`](openspec/specs/birthday-lock/spec.md) |
-| **`auth-profile`** | Autenticación con perfiles predefinidos de Valentina (`14102026`) y Admin (`admin290344`), validación numérica e hidratación sincrónica. | [`openspec/specs/auth-profile/spec.md`](openspec/specs/auth-profile/spec.md) |
+| **`auth-profile`** | Autenticación con perfiles predefinidos de Valentina (`14102026vale`) y Admin (`admin290344`), validación e hidratación sincrónica. | [`openspec/specs/auth-profile/spec.md`](openspec/specs/auth-profile/spec.md) |
 | **`gift-lottery`** | Ruleta interactiva SVG de 7 sectores. **Regla de 1er giro:** Namjoon (#4, carta de amor). **Regla de último giro:** Jungkook (#7, brindis final). Giros intermedios (2-6) aleatorios. Persistencia en `localStorage`. | [`openspec/specs/gift-lottery/spec.md`](openspec/specs/gift-lottery/spec.md) |
 | **`bts-gift-reveal`** | Fichas de integrantes (1: Yoongi, 2: Taehyung, 3: Jimin, 4: Namjoon, 5: Jin, 6: Hobi, 7: Jungkook), frases célebres, dedicatorias, pistas redactadas y galería de regalos. | [`openspec/specs/bts-gift-reveal/spec.md`](openspec/specs/bts-gift-reveal/spec.md) |
 | **`theme-system`** | Alternancia global entre **Pastel Gifts** (lavanda, Borahae, rosa) y **Arirang Concierto** (rojo carmesí, negro mate, blanco) con botón flotante reactivo. | [`openspec/specs/theme-system/spec.md`](openspec/specs/theme-system/spec.md) |
@@ -79,7 +79,7 @@ openspec validate --all
 
 - **Valentina**:
   - URL: `/`
-  - Clave: `14102026` *(Fecha de cumpleaños en formato numérico DDMMAAAA)*
+  - Clave: `14102026vale` *(Fecha de cumpleaños + vale)*
 - **Administrador (Control y Pruebas)**:
   - URL directa: `/admin`
   - Clave maestra: `admin290344`

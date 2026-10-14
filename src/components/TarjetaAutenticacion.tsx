@@ -135,7 +135,7 @@ export function TarjetaAutenticacion() {
               className={`block text-xs font-bold uppercase tracking-wider mb-2 ${esPastel ? "text-purple-900" : "text-zinc-300"
                 }`}
             >
-              {perfilSeleccionado === "valentina" ? "Fecha de Cumpleaños" : "Clave de Acceso"}
+              {perfilSeleccionado === "valentina" ? "Contraseña" : "Clave de Acceso"}
             </label>
 
             <div className="relative">

@@ -106,7 +106,7 @@ export function ProveedorAutenticacion({ children }: { children: React.ReactNode
         success: false,
         error:
           idPerfil === "valentina"
-            ? "Contraseña incorrecta. Pista: ingresá tu fecha de cumpleaños sin espacios (ej: DDMMAAAA)."
+            ? "Contraseña incorrecta. Pista: ingresá tu fecha de cumpleaños + vale (ej: 14102026vale)."
             : "Clave de administrador incorrecta.",
       };
     }
